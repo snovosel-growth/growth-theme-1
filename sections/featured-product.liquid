@@ -116,9 +116,23 @@
               {{ block.shopify_attributes }}>{{ 'general.on_boarding.product_title' | t }}</h2>
 
             {%- when 'price' -%}
+
             <div class="product-info__price">
-              <price-list class="price-list price-list--lg">
-                <sale-price class="text-lg">{{ 4000 | money }}</sale-price>
+              <price-list
+                class="price-list price-list--lg"
+                style="justify-content: {{ block.settings.alignment }}; ">
+                <sale-price
+                  class="text-lg"
+                  style="{% if block.settings.inverted == true %}order: 1;{% endif %}font-size: {{ block.settings.original_price_desktop_font_size }}px; color: {{ block.settings.original_price_color }}">
+                  {{ 4000 | money }}
+                </sale-price>
+
+                {% if block.settings.show_discount %}
+                  <compare-at-price class="text-subdued line-through" style="font-size: {{ block.settings.discounted_price_desktop_font_size }}px; color: {{ block.settings.discounted_price_color }}">
+                    {{ 3000 | money }}
+                  </compare-at-price>
+                {% endif %}
+
               </price-list>
             </div>
 
@@ -445,9 +459,90 @@
         "settings": [
           {
             "type": "checkbox",
+            "id": "show_discount",
+            "label": "Show discount",
+            "default": false
+          },
+          {
+            "type": "checkbox",
             "id": "show_taxes_notice",
             "label": "Show taxes notice",
             "default": false
+          },
+          {
+            "type": "checkbox",
+            "id": "inverted",
+            "label": "Inverted",
+            "default": false
+          },
+          {
+            "type": "select",
+            "id": "alignment",
+            "label": "Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              }, {
+                "value": "center",
+                "label": "Center"
+              }, {
+                "value": "right",
+                "label": "Right"
+              }
+            ]
+          }, {
+            "type": "header",
+            "content": "Original price"
+          }, {
+            "type": "range",
+            "id": "original_price_desktop_font_size",
+            "label": "Desktop font size",
+            "min": 8,
+            "max": 52,
+            "step": 1,
+            "unit": "px",
+            "default": 20
+          }, {
+            "type": "range",
+            "id": "original_price_mobile_font_size",
+            "label": "Mobile font size",
+            "min": 8,
+            "max": 52,
+            "step": 1,
+            "unit": "px",
+            "default": 14
+          }, {
+            "type": "color",
+            "id": "original_price_color",
+            "label": "Original Price Color",
+            "default": "#1a1a1a"
+          }, {
+            "type": "header",
+            "content": "Discounted price"
+          }, {
+            "type": "range",
+            "id": "discounted_price_desktop_font_size",
+            "label": "Desktop font size",
+            "min": 8,
+            "max": 52,
+            "step": 1,
+            "unit": "px",
+            "default": 20
+          }, {
+            "type": "range",
+            "id": "discounted_price_mobile_font_size",
+            "label": "Mobile font size",
+            "min": 8,
+            "max": 52,
+            "step": 1,
+            "unit": "px",
+            "default": 14
+          }, {
+            "type": "color",
+            "id": "discounted_price_color",
+            "label": "Discounted Price Color",
+            "default": "#1a1a1a"
           }
         ]
       }, {
