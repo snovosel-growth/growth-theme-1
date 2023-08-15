@@ -96,7 +96,18 @@
         {%- for block in section.blocks -%}
           {%- case block.type -%}
             {%- when 'vendor' -%}
-            <div class="product-info__vendor" {{ block.shopify_attributes }}>{{- 'general.on_boarding.product_vendor' | t -}}</div>
+            <div
+              class="product-info__vendor {% if block.settings.color_gradient != blank  %}text-gradient{% endif %}"
+              style="
+              {% if block.settings.color_gradient != blank %}
+                --gradient: {{ block.settings.color_gradient }};
+              {% else %}
+                color: {{ block.settings.color }};
+              {% endif %}; 
+              text-align: {{ block.settings.alignment }};"
+              {{ block.shopify_attributes }}>
+              {{- 'general.on_boarding.product_vendor' | t -}}
+            </div>
 
             {%- when 'title' -%}
             <h2
@@ -301,7 +312,35 @@
       {
         "type": "vendor",
         "name": "Vendor",
-        "limit": 1
+        "limit": 1,
+        "settings": [
+          {
+            "type": "color",
+            "id": "color",
+            "label": "Color",
+            "default": "#1a1a1a"
+          }, {
+            "type": "color_background",
+            "id": "color_gradient",
+            "label": "Gradient Color"
+          }, {
+            "type": "select",
+            "id": "alignment",
+            "label": "Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              }, {
+                "value": "center",
+                "label": "Center"
+              }, {
+                "value": "right",
+                "label": "Right"
+              }
+            ]
+          }
+        ]
       },
       {
         "type": "title",
