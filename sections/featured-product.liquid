@@ -154,7 +154,7 @@
               <div class="form-control">
                 <label for="{{ product_form_id }}-quantity" class="block-label text-subdued">{{- 'product.quantity.label' | t -}}:</label>
 
-                <quantity-selector class="quantity-selector">
+                <quantity-selector class="quantity-selector" style="border-radius: {{ block.settings.border_radius }}px; border-width: {{ block.settings.border_width }}; border-color: {{ block.settings.border_color }}; color: {{ block.settings.text_color }}; background-color: {{ block.settings.background_color }}; float: {{ block.settings.position }}">
                   <button
                     type="button"
                     class="quantity-selector__button"
@@ -793,6 +793,54 @@
           {
             "type": "paragraph",
             "content": "The selector is automatically hidden if all variants are sold out. When at least one variant is available, the selector is always visible to prevent the page from moving when switching variants."
+          },
+          {
+            "type": "range",
+            "id": "border_radius",
+            "label": "Border radius",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "default": 40
+          },
+          {
+            "type": "range",
+            "id": "border_width",
+            "label": "Border width",
+            "min": 0,
+            "max": 10,
+            "step": 1,
+            "default": 1
+          },
+          {
+            "type": "color",
+            "id": "border_color",
+            "label": "Border color",
+            "default": "#d9d9d9"
+          }, {
+            "type": "color",
+            "id": "text_color",
+            "label": "Text color",
+            "default": "#1a1a1a"
+          }, {
+            "type": "color",
+            "id": "background_color",
+            "label": "Background Color",
+            "default": "transparent"
+          }, {
+            "type": "select",
+            "id": "position",
+            "label": "Position",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              }, {
+                "value": "right",
+                "label": "Right"
+              }
+            ],
+            "default": "left"
           }
         ]
       }, {
