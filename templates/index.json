@@ -906,7 +906,7 @@
             "settings": {
               "desktop_media_position": "",
               "desktop_media_width": 55,
-              "desktop_media_layout": "",
+              "desktop_media_layout": "carousel_thumbnails_left",
               "mobile_media_size": "",
               "mobile_carousel_control": "",
               "enable_video_autoplay": true,

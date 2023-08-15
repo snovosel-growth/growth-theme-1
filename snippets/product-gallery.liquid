@@ -12,6 +12,8 @@ only way to do it on Shopify right now.
 
 {% assign filtered_indexes = null | sort %}
 
+{% assign desktop_media_layout = desktop_media_layout | default: section.settings.desktop_media_layout %}
+
 {%- if product.variants.size > 1 -%}
   {%- for media in product.media -%}
     {%- if media.alt contains '#' and media.alt != product.title -%}
@@ -34,7 +36,7 @@ only way to do it on Shopify right now.
 <product-gallery
   form="{{ product_form_id }}"
   {%- if section.settings.enable_image_zoom -%}allow-zoom="{{ section.settings.max_image_zoom_level }}"{% endif %}
-  class="product-gallery {% if section.settings.mobile_carousel_control contains 'dots' %}product-gallery--mobile-dots{% endif %} {% if section.settings.desktop_media_layout contains 'grid' %}product-gallery--desktop-grid{% else %}product-gallery--desktop-carousel{% endif %} {% if section.settings.desktop_media_layout == 'carousel_thumbnails_left' %}product-gallery--desktop-thumbnails-left{% endif %} {% if section.settings.mobile_media_size == 'expanded' %}product-gallery--mobile-expanded{% endif %}">
+  class="product-gallery {% if section.settings.mobile_carousel_control contains 'dots' %}product-gallery--mobile-dots{% endif %} {% if desktop_media_layout contains 'grid' %}product-gallery--desktop-grid{% else %}product-gallery--desktop-carousel{% endif %} {% if desktop_media_layout == 'carousel_thumbnails_left' %}product-gallery--desktop-thumbnails-left{% endif %} {% if section.settings.mobile_media_size == 'expanded' %}product-gallery--mobile-expanded{% endif %}">
   {%- capture page_dots -%}
     <page-dots class="page-dots {% if section.settings.mobile_carousel_control == 'floating_dots' %}page-dots--blurred{% endif %} md:hidden" aria-controls="{{ product_gallery_id }}">
       {%- for media in product.media -%}
@@ -51,7 +53,7 @@ only way to do it on Shopify right now.
 
   <div class="product-gallery__ar-wrapper">
     <div class="product-gallery__media-list-wrapper">
-      {%- if section.settings.desktop_media_layout contains 'carousel' and product.media.size > 1 -%}
+      {%- if desktop_media_layout contains 'carousel' and product.media.size > 1 -%}
         <custom-cursor class="product-gallery__cursor" {% if default_media.media_type != 'image' %}hidden{% endif %}>
           <div class="circle-button circle-button--fill circle-button--lg">
             {%- render 'icon' with 'chevron-right' -%}
@@ -65,7 +67,7 @@ only way to do it on Shopify right now.
       --------------------------------------------------------------------------------------------------------------------
       {%- endcomment -%}
       <media-carousel
-        desktop-mode="{{ section.settings.desktop_media_layout }}"
+        desktop-mode="{{ desktop_media_layout }}"
         adaptive-height
         initial-index="{{ default_media.position | minus: 1 }}"
         {% if section.settings.enable_video_autoplay %}autoplay{% endif %}
@@ -74,7 +76,7 @@ only way to do it on Shopify right now.
         {%- assign media_attached_to_variant = product.images | where: 'attached_to_variant?', true | map: 'src' -%}
 
         {%- for media in product.media -%}
-          {%- case section.settings.desktop_media_layout -%}
+          {%- case desktop_media_layout -%}
             {%- when 'carousel_thumbnails_bottom' -%}
             {%- capture sizes -%}(max-width: 740px) calc(100vw - 40px), (max-width: 999px) calc(100vw - 64px), min(760px, 42vw){%- endcapture -%}
 
@@ -103,7 +105,7 @@ only way to do it on Shopify right now.
 
             {%- render 'media', media: media, sizes: sizes, preload: preload, autoplay: section.settings.enable_video_autoplay, loop: section.settings.enable_video_looping, group: 'product' -%}
 
-            {%- if section.settings.enable_image_zoom and section.settings.desktop_media_layout contains 'grid' and media.media_type == 'image' -%}
+            {%- if section.settings.enable_image_zoom and desktop_media_layout contains 'grid' and media.media_type == 'image' -%}
               <div class="product-gallery__zoom hidden md:block">
                 <button
                   type="button"
@@ -119,7 +121,7 @@ only way to do it on Shopify right now.
       </media-carousel>
 
       {%- if section.settings.enable_image_zoom -%}
-        <div class="product-gallery__zoom {% if section.settings.desktop_media_layout contains 'grid' %}md:hidden{% endif %}">
+        <div class="product-gallery__zoom {% if desktop_media_layout contains 'grid' %}md:hidden{% endif %}">
           <button
             type="button"
             is="product-zoom-button"
@@ -174,7 +176,7 @@ only way to do it on Shopify right now.
       {{- page_dots -}}
     {%- endif -%}
 
-    {%- if section.settings.mobile_carousel_control == 'thumbnails' or section.settings.desktop_media_layout contains 'thumbnails' -%}
+    {%- if section.settings.mobile_carousel_control == 'thumbnails' or desktop_media_layout contains 'thumbnails' -%}
       <scroll-shadow class="product-gallery__thumbnail-list-wrapper">
         <page-dots
           align-selected
