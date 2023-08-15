@@ -105,7 +105,10 @@
             </div>
 
             {%- when 'separator' -%}
-            <hr class="product-info__separator" {{ block.shopify_attributes }}>
+            <hr
+              class="product-info__separator"
+              style="width: {{ block.settings.width }}%; margin: {{ block.settings.spacing }}px 0; }}; border-color: {{ block.settings.color }}; border-width: {{ block.settings.height }}px;"
+              {{ block.shopify_attributes }}>
 
             {%- when 'description' -%}
             <div class="product-info__description" {{ block.shopify_attributes }}>
@@ -382,7 +385,42 @@
         ]
       }, {
         "type": "separator",
-        "name": "Separator"
+        "name": "Separator",
+        "settings": [
+          {
+            "type": "range",
+            "id": "width",
+            "label": "Width",
+            "min": 0,
+            "max": 100,
+            "step": 1,
+            "unit": "%",
+            "default": 100
+          }, {
+            "type": "range",
+            "id": "spacing",
+            "label": "Spacing",
+            "min": 0,
+            "max": 30,
+            "step": 1,
+            "unit": "px",
+            "default": 12
+          }, {
+            "type": "range",
+            "id": "height",
+            "label": "Height",
+            "min": 0,
+            "max": 10,
+            "step": 1,
+            "unit": "px",
+            "default": 1
+          }, {
+            "type": "color",
+            "id": "color",
+            "label": "Color",
+            "default": "#e6e6e6"
+          }
+        ]
       }, {
         "type": "description",
         "name": "Description",
