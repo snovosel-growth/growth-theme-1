@@ -1,0 +1,54 @@
+.{{ class }} {
+        
+        {%- if background != "transparent" -%}
+            {%- if background_gradient != blank -%}
+                background: {{ background_gradient }};
+            {% else %}
+                background: {{ background }};
+            {%- endif -%}
+        {%- endif -%}
+
+        {%- if background_gradient != blank -%}
+            background: {{ background_gradient }};
+        {% endif %}
+
+        {%- if border_width != 0 -%}
+            border: {{ border_width }}px solid {{ border_color }};
+        {%- endif -%}
+
+        {%- if border_radius != blank -%}
+            border-radius: {{ border_radius }}px;
+        {%- endif -%}
+
+        {%- if text_color != "transparent" and text_color != blank -%}
+            color: {{ text_color }};
+        {%- endif -%}
+
+        {%- if border_bottom -%}
+            border: none;
+            {%- if border_width == 0 -%}
+            border-bottom: 1px solid {{ border_color }};
+            {%- else -%}
+            border-bottom: {{ border_width }}px solid {{ border_color }};
+            {%- endif -%}
+        {%- endif -%}
+
+    }
+
+   .{{ class }}:hover {
+        {%- if background_hovered != "transparent" -%}
+            {%- if background_gradient_hovered != blank -%}
+                background: {{ background_gradient_hovered }};
+            {% else %}
+                background: {{ background_hovered }};
+            {%- endif -%}
+        {%- endif -%}
+
+        {%- if background_gradient_hovered != blank -%}
+            background: {{ background_gradient_hovered }};
+        {%- endif -%}
+
+        {%- if text_color_hovered != "transparent" and text_color_hovered != blank -%}
+            color: {{ text_color_hovered }};
+        {%- endif -%}
+    }

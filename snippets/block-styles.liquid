@@ -1,0 +1,47 @@
+.{{ class }} {
+
+        {%- if block_background != "transparent" -%}
+            {%- if block_background_gradient != blank -%}
+                background: {{ block_background_gradient }};
+            {% else %}
+                background: {{ block_background }};
+            {%- endif -%}
+        {%- endif -%}
+
+        {%- if block_background_gradient != blank -%}
+            background: {{ block_background_gradient }};
+        {% endif %}
+
+        {%- if border_width != 0 -%}
+            border-width: {{ border_width }}px;
+        {%- endif -%}
+
+		{%- if border_color != 0 -%}
+            border-color: {{ border_color }};
+        {%- endif -%}
+
+        {%- if border_radius != 0 -%}
+            border-radius: {{ border_radius }}px;
+        {%- endif -%}
+
+        {%- if border_padding -%}
+			{%- if border_padding == "small" or border_padding <= 50 -%}
+				margin-left: 16%;
+				margin-right: 16%;
+			{%- elsif border_padding == "medium" or border_padding <= 70 -%}
+				margin-left: 12%;
+				margin-right: 12%;
+			{%- else -%}
+				margin-left: 5%;
+				margin-right: 5%;
+			{% endif %}
+        {%- endif -%}
+
+        {% if image_reverse == true %}
+            display: flex;
+            flex-direction: column-reverse; 
+        {% else %}
+            display: flex;
+            flex-direction: column;        
+        {% endif %}
+    }

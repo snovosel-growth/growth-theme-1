@@ -1,0 +1,1158 @@
+{%- render 'section-spacing-collapsing' -%}
+
+{%- comment -%}
+------------------------------------------------------------------------------------------------------------------------
+CSS
+------------------------------------------------------------------------------------------------------------------------
+{%- endcomment -%}
+
+<style>
+  #shopify-section-{{ section.id }} .product-list {
+    --product-list-gap: {% if section.settings.stack_products %}{% if section.settings.products_per_row_mobile == '1' %}var(--grid-gutter){% else %}var(--product-list-row-gap){% endif %} var(--spacing-2){% else %}var(--product-list-row-gap) var(--product-list-column-gap){% endif %};
+    --product-list-items-per-row: {{ section.settings.products_per_row_mobile | times: 1 }};
+    --product-list-carousel-item-width: 74vw;
+    --product-list-grid: {% if section.settings.stack_products %}auto / repeat(var(--product-list-items-per-row), minmax(0, 1fr)){% else %}auto / auto-flow var(--product-list-carousel-item-width){% endif %}; 
+    {% if section.settings.spacing != blank %}
+      gap: var(--spacing-{{ section.settings.spacing }});
+    {% endif %}
+  }
+
+  @media screen and (min-width: 700px) {
+    #shopify-section-{{ section.id }} .product-list {
+      --product-list-gap: var(--product-list-row-gap) var(--product-list-column-gap);
+      --product-list-items-per-row: 2;
+      --product-list-carousel-item-width: 36vw;
+    }
+  }
+
+  @media screen and (min-width: 1000px) {
+    #shopify-section-{{ section.id }} .product-list {
+      --product-list-items-per-row: {{ section.settings.products_per_row_desktop }};
+      --product-list-carousel-item-width: calc(var(--container-inner-width) / {{ section.settings.products_per_row_desktop }} - (var(--product-list-column-gap) / {{ section.settings.products_per_row_desktop }} * {{ section.settings.products_per_row_desktop | minus: 1 }}));
+    }
+  }
+
+  #shopify-section-{{ section.id }} .product-card {
+    background: {{ card_background }};
+    color: {{ section.settings.product_card_text_color }};
+    border-radius: {{ section.settings.border_radius }}px;
+    box-shadow: {{ section.settings.block_shadow_horizontal_offset }}px {{ section.settings.block_shadow_vertical_offset }}px {{ section.settings.block_shadow_blur }}px rgb(var(--text-primary) / {{ section.settings.block_shadow_opacity | divided_by: 100.0 }});
+    overflow: hidden;
+  }
+</style>
+
+{%- comment -%}
+------------------------------------------------------------------------------------------------------------------------
+LIQUID
+------------------------------------------------------------------------------------------------------------------------
+{%- endcomment -%}
+
+<div {% render 'section-properties' %}>
+  <div class="section-stack">
+    {%- render 'section-header', subheading: section.settings.subheading, heading: section.settings.title, heading_color: section.settings.heading_color, heading_gradient: section.settings.heading_gradient, content: section.settings.content, text_alignment: section.settings.text_alignment, apply_section_settings: true -%}
+
+    <div class="{% if section.settings.show_progress_bar %}scrollable-with-controls{% else %}floating-controls-container{% endif %}">
+      {%- assign scroll_area_id = 'scroll-area-' | append: section.id -%}
+
+      {%- if section.settings.products.count > 0 -%}
+        <scroll-carousel selector="product-card" id="{{ scroll_area_id }}" class="scroll-area bleed {% if section.settings.products.count > section.settings.products_per_row_desktop %}is-scrollable{% endif %}">
+          <reveal-items selector=".product-list > *">
+            <product-list class="product-list">
+              {%- for product in section.settings.products -%}
+                {%- render 'product-card', product: product, stacked: section.settings.stack_products, show_badges: true, apply_section_blocks_settings: true -%}
+              {%- endfor -%}
+            </product-list>
+          </reveal-items>
+        </scroll-carousel>
+
+        {%- if section.settings.stack_products == false -%}
+          {%- if section.settings.show_progress_bar -%}
+            {%- assign default_progress = section.settings.products_per_row_desktop | times: 1.0 | divided_by: section.settings.products.count -%}
+            {%- render 'scrollbar', observes: scroll_area_id, default_progress: default_progress, show_buttons: true -%}
+          {%- else -%}
+            <button is="prev-button" class="circle-button circle-button--lg circle-button--fill border group" aria-controls="{{ scroll_area_id }}" disabled>
+              <span class="sr-only">{{ 'general.accessibility.previous' | t }}</span>
+              <span class="animated-arrow animated-arrow--reverse"></span>
+            </button>
+
+            <button is="next-button" class="circle-button circle-button--lg circle-button--fill border group" aria-controls="{{ scroll_area_id }}">
+              <span class="sr-only">{{ 'general.accessibility.next' | t }}</span>
+              <span class="animated-arrow"></span>
+            </button>
+          {%- endif -%}
+        {%- endif -%}
+      {%- else -%}
+        <product-recommendations product="{{ product.id }}" limit="{{ section.settings.recommendations_count }}" intent="related" class="contents">
+          {%- if recommendations.performed and recommendations.products_count > 0 -%}
+            <scroll-carousel selector="product-card" id="{{ scroll_area_id }}" class="scroll-area bleed {% if section.settings.recommendations_count > section.settings.products_per_row_desktop %}is-scrollable{% endif %}">
+              <reveal-items selector=".product-list > *">
+                <product-list class="product-list">
+                  {%- for product in recommendations.products -%}
+                    {%- render 'product-card', product: product, stacked: section.settings.stack_products, show_badges: true, apply_section_blocks_settings: true -%}
+                  {%- endfor -%}
+                </product-list>
+              </reveal-items>
+            </scroll-carousel>
+
+            {%- if section.settings.stack_products == false -%}
+              {%- if section.settings.show_progress_bar -%}
+                {%- assign default_progress = section.settings.products_per_row_desktop | times: 1.0 | divided_by: section.settings.recommendations_count -%}
+                {%- render 'scrollbar', observes: scroll_area_id, default_progress: default_progress, show_buttons: true -%}
+              {%- else -%}
+                <button is="prev-button" class="circle-button circle-button--lg circle-button--fill border group" aria-controls="{{ scroll_area_id }}" disabled>
+                  <span class="sr-only">{{ 'general.accessibility.previous' | t }}</span>
+                  <span class="animated-arrow animated-arrow--reverse"></span>
+                </button>
+
+                <button is="next-button" class="circle-button circle-button--lg circle-button--fill border group" aria-controls="{{ scroll_area_id }}">
+                  <span class="sr-only">{{ 'general.accessibility.next' | t }}</span>
+                  <span class="animated-arrow"></span>
+                </button>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endif -%}
+        </product-recommendations>
+      {%- endif -%}
+    </div>
+  </div>
+</div>
+
+{% schema %}
+{
+  "name": "Related products",
+  "class": "shopify-section--product-recommendations",
+  "tag": "section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "paragraph",
+      "content": "Dynamic recommendations change and improve with time. Create manual product recommendations using the Shopify Search & Discovery app. [Learn more](https://help.shopify.com/en/manual/online-store/search-and-discovery/product-recommendations)."
+    },
+    {
+      "type": "range",
+      "id": "recommendations_count",
+      "min": 2,
+      "max": 10,
+      "label": "Dynamic recommendations count",
+      "default": 6
+    },
+    {
+      "type": "product_list",
+      "id": "products",
+      "limit": 20,
+      "label": "Manual recommendations",
+      "info": "Replaces automatic recommendations when selected."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_secondary_image",
+      "label": "Show secondary image",
+      "info": "Show the second image on hover"
+    },
+    {
+      "type": "range",
+      "id": "spacing",
+      "label": "Space between product cards",
+      "unit": "px",
+      "min": 0,
+      "max": 10,
+      "step": 2,
+      "default": 2
+    },
+    {
+      "type": "select",
+      "id": "badges_position",
+      "label": "Bagdes position",
+      "options": [
+        {
+          "value": "top-left",
+          "label": "Top left"
+        },
+        {
+          "value": "top-right",
+          "label": "Top right"
+        },
+        {
+          "value": "bottom-left",
+          "label": "Bottom left"
+        },
+        {
+          "value": "bottom-right",
+          "label": "Bottom right"
+        }
+      ],
+      "default": "top-left"
+    },
+    {
+      "type": "header",
+      "content": "Shadow"
+    },
+    {
+      "type": "range",
+      "id": "block_shadow_opacity",
+      "min": 0,
+      "max": 100,
+      "unit": "%",
+      "label": "Opacity",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "block_shadow_horizontal_offset",
+      "min": -32,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Horizontal offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "block_shadow_vertical_offset",
+      "min": -32,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "label": "Vertical offset",
+      "default": 0
+    },
+    {
+      "type": "range",
+      "id": "block_shadow_blur",
+      "min": 0,
+      "max": 60,
+      "step": 5,
+      "unit": "px",
+      "label": "Blur",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Product card border radius",
+      "unit": "px",
+      "min": 0,
+      "max": 50,
+      "step": 1,
+      "default": 0
+    },
+    {
+      "type": "select",
+      "id": "product_image_aspect_ratio",
+      "label": "Product image size",
+      "options": [
+        {
+          "value": "natural",
+          "label": "Natural"
+        },
+        {
+          "value": "short",
+          "label": "Short (4:3)"
+        },
+        {
+          "value": "square",
+          "label": "Square (1:1)"
+        },
+        {
+          "value": "tall",
+          "label": "Tall (2:3)"
+        },
+        {
+          "value": "short_crop",
+          "label": "Short (4:3) - fill card"
+        },
+        {
+          "value": "square_crop",
+          "label": "Square (1:1) - fill card"
+        },
+        {
+          "value": "tall_crop",
+          "label": "Tall (2:3) - fill card"
+        }
+      ],
+      "default": "natural"
+    },
+    {
+      "type": "checkbox",
+      "id": "full_width",
+      "label": "Full width",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "stack_products",
+      "label": "Stack products",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_progress_bar",
+      "label": "Show carousel progress bar",
+      "default": false
+    },
+    {
+      "type": "select",
+      "id": "products_per_row_mobile",
+      "label": "Products per row (mobile)",
+      "options": [
+        {
+          "value": "1",
+          "label": "1"
+        },
+        {
+          "value": "2",
+          "label": "2"
+        }
+      ],
+      "default": "1"
+    },
+    {
+      "type": "range",
+      "id": "products_per_row_desktop",
+      "min": 2,
+      "max": 5,
+      "label": "Products per row (desktop)",
+      "default": 3
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Text alignment",
+      "options": [
+        {
+          "value": "start",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "end",
+          "label": "Right"
+        }
+      ],
+      "default": "center"
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured collection"
+    },
+    {
+      "type": "select",
+      "id": "heading_font_weight",
+      "label": "Normal / Bold",
+      "options": [
+        {
+          "value": "400",
+          "label": "Normal"
+        },
+        {
+          "value": "700",
+          "label": "Bold"
+        }
+      ],
+      "default": "400"
+    },
+    {
+      "type": "font_picker",
+      "id": "heading_font_family",
+      "label": "Heading font family",
+      "default": "helvetica_n4"
+    },
+    {
+      "type": "range",
+      "id": "heading_font_size_in_px",
+      "label": "Heading font size",
+      "unit": "px",
+      "min": 8,
+      "max": 70,
+      "step": 1,
+      "default": 40
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Content"
+    },
+    {
+      "type": "font_picker",
+      "id": "content_font_family",
+      "label": "Content font family",
+      "default": "helvetica_n4"
+    },
+    {
+      "type": "range",
+      "id": "content_font_size_in_px",
+      "label": "Content font size",
+      "unit": "px",
+      "min": 8,
+      "max": 32,
+      "step": 1,
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Colors",
+      "info": "Gradient replaces solid colors when set."
+    },
+    {
+      "type": "color",
+      "id": "background",
+      "label": "Background"
+    },
+    {
+      "type": "color_background",
+      "id": "background_gradient",
+      "label": "Background gradient"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text"
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color"
+    },
+    {
+      "type": "color_background",
+      "id": "heading_gradient",
+      "label": "Heading gradient"
+    },
+    {
+      "type": "color",
+      "id": "product_card_background",
+      "label": "Product card background"
+    },
+    {
+      "type": "color",
+      "id": "product_card_text_color",
+      "label": "Product card text"
+    }
+  ],
+  "max_blocks": 12,
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "vendor",
+      "name": "Vendor",
+      "settings": [
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Content position",
+          "options": [
+            {
+              "value": "place-self-start text-start",
+              "label": "Left"
+            },
+            {
+              "value": "place-self-start-center text-center",
+              "label": "Center"
+            },
+            {
+              "value": "place-self-start-end text-end",
+              "label": "Right"
+            }
+          ],
+          "default": "place-self-start text-start"
+        },
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Normal / Bold",
+          "options": [
+            {
+              "value": "400",
+              "label": "Normal"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "400"
+        },
+        {
+          "type": "range",
+          "id": "font_size_in_px",
+          "label": "Font size",
+          "unit": "px",
+          "min": 8,
+          "max": 60,
+          "step": 1,
+          "default": 18
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "header",
+          "info": "Selecting different fonts can affect the speed of your online store. Learn more about [system fonts.](https://help.shopify.com/en/manual/online-store/os/store-speed/improving-speed#fonts)",
+          "content": "Fonts"
+        },
+        {
+          "type": "font_picker",
+          "id": "font_family",
+          "label": "Choose a Font",
+          "default": "helvetica_n4"
+        }
+      ]
+    },
+    {
+      "type": "price",
+      "name": "Price",
+      "settings": [
+        {
+          "type": "checkbox",
+          "id": "invert_order",
+          "label": "Invert order",
+          "default": false
+        },
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Content position",
+          "options": [
+            {
+              "value": "left",
+              "label": "Left"
+            },
+            {
+              "value": "center",
+              "label": "Center"
+            },
+            {
+              "value": "right",
+              "label": "Right"
+            }
+          ],
+          "default": "left"
+        },
+        {
+          "type": "header",
+          "content": "Final price settings"
+        },
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Normal / Bold",
+          "options": [
+            {
+              "value": "400",
+              "label": "Normal"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "400"
+        },
+        {
+          "type": "range",
+          "id": "font_size_in_px",
+          "label": "Font size",
+          "unit": "px",
+          "min": 8,
+          "max": 60,
+          "step": 1,
+          "default": 18
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "font_picker",
+          "id": "font_family",
+          "label": "Choose a Font",
+          "default": "helvetica_n4"
+        },
+        {
+          "type": "header",
+          "content": "Initial price settings"
+        },
+        {
+          "type": "select",
+          "id": "secondary_font_weight",
+          "label": "Normal / Bold",
+          "options": [
+            {
+              "value": "400",
+              "label": "Normal"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "400"
+        },
+        {
+          "type": "range",
+          "id": "secondary_font_size_in_px",
+          "label": "Font size",
+          "unit": "px",
+          "min": 8,
+          "max": 60,
+          "step": 1,
+          "default": 18
+        },
+        {
+          "type": "color",
+          "id": "secondary_text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "font_picker",
+          "id": "secondary_font_family",
+          "label": "Choose a Font",
+          "default": "helvetica_n4"
+        }
+      ]
+    },
+    {
+      "type": "title",
+      "name": "Title",
+      "settings": [
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Content position",
+          "options": [
+            {
+              "value": "place-self-start text-start",
+              "label": "Left"
+            },
+            {
+              "value": "place-self-start-center text-center",
+              "label": "Center"
+            },
+            {
+              "value": "place-self-start-end text-end",
+              "label": "Right"
+            }
+          ],
+          "default": "place-self-start text-start"
+        },
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Normal / Bold",
+          "options": [
+            {
+              "value": "400",
+              "label": "Normal"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "400"
+        },
+        {
+          "type": "range",
+          "id": "font_size_in_px",
+          "label": "Font size",
+          "unit": "px",
+          "min": 8,
+          "max": 60,
+          "step": 1,
+          "default": 18
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "header",
+          "info": "Selecting different fonts can affect the speed of your online store. Learn more about [system fonts.](https://help.shopify.com/en/manual/online-store/os/store-speed/improving-speed#fonts)",
+          "content": "Fonts"
+        },
+        {
+          "type": "font_picker",
+          "id": "font_family",
+          "label": "Choose a Font",
+          "default": "helvetica_n4"
+        }
+      ]
+    },
+    {
+      "type": "description",
+      "name": "Description",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "text_position",
+          "label": "Content position",
+          "options": [
+            {
+              "value": "place-self-start text-start",
+              "label": "Left"
+            },
+            {
+              "value": "place-self-start-center text-center",
+              "label": "Center"
+            },
+            {
+              "value": "place-self-start-end text-end",
+              "label": "Right"
+            }
+          ],
+          "default": "place-self-start text-start"
+        },
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Normal / Bold",
+          "options": [
+            {
+              "value": "400",
+              "label": "Normal"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "400"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "range",
+          "id": "font_size_in_px",
+          "label": "Font size",
+          "unit": "px",
+          "min": 8,
+          "max": 60,
+          "step": 1,
+          "default": 18
+        }
+      ]
+    },
+    {
+      "type": "custom_badge",
+      "name": "Custom badges",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Normal / Bold",
+          "options": [
+            {
+              "value": "400",
+              "label": "Normal"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "400"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color"
+        },
+        {
+          "type": "range",
+          "id": "border_radius_in_px",
+          "label": "Border radius",
+          "unit": "px",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 15
+        },
+        {
+          "type": "range",
+          "id": "font_size_in_px",
+          "label": "Font size",
+          "unit": "px",
+          "min": 8,
+          "max": 60,
+          "step": 1,
+          "default": 12
+        },
+        {
+          "type": "font_picker",
+          "id": "font_family",
+          "label": "Choose a Font",
+          "default": "helvetica_n4"
+        }
+      ]
+    },
+    {
+      "type": "discount_badge",
+      "name": "Discount badge",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Normal / Bold",
+          "options": [
+            {
+              "value": "400",
+              "label": "Normal"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "400"
+        },
+        {
+          "type": "select",
+          "id": "discount_mode",
+          "label": "Show discount as...",
+          "options": [
+            {
+              "value": "percentage",
+              "label": "Percentage"
+            },
+            {
+              "value": "saving",
+              "label": "Saving"
+            }
+          ],
+          "default": "saving"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color"
+        },
+        {
+          "type": "range",
+          "id": "border_radius_in_px",
+          "label": "Border radius",
+          "unit": "px",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 15
+        },
+        {
+          "type": "range",
+          "id": "font_size_in_px",
+          "label": "Font size",
+          "unit": "px",
+          "min": 8,
+          "max": 60,
+          "step": 1,
+          "default": 12
+        },
+        {
+          "type": "font_picker",
+          "id": "font_family",
+          "label": "Choose a Font",
+          "default": "helvetica_n4"
+        }
+      ]
+    },
+    {
+      "type": "sold_out_badge",
+      "name": "Sold out badge",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "select",
+          "id": "font_weight",
+          "label": "Normal / Bold",
+          "options": [
+            {
+              "value": "400",
+              "label": "Normal"
+            },
+            {
+              "value": "700",
+              "label": "Bold"
+            }
+          ],
+          "default": "400"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color"
+        },
+        {
+          "type": "range",
+          "id": "border_radius_in_px",
+          "label": "Border radius",
+          "unit": "px",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 15
+        },
+        {
+          "type": "range",
+          "id": "font_size_in_px",
+          "label": "Font size",
+          "unit": "px",
+          "min": 8,
+          "max": 60,
+          "step": 1,
+          "default": 12
+        },
+
+        {
+          "type": "font_picker",
+          "id": "font_family",
+          "label": "Choose a Font",
+          "default": "helvetica_n4"
+        }
+      ]
+    },
+    {
+      "type": "variant_picker",
+      "name": "Variant picker",
+      "settings": [
+        {
+          "type": "select",
+          "id": "product_color_display",
+          "label": "Color display mode",
+          "info": "Variant images are hidden on mobile and small screens.",
+          "options": [
+            {
+              "value": "hide",
+              "label": "Hide"
+            },
+            {
+              "value": "count",
+              "label": "Count"
+            },
+            {
+              "value": "swatch",
+              "label": "Swatch"
+            },
+            {
+              "value": "variant",
+              "label": "Variant image"
+            }
+          ],
+          "default": "count"
+        },
+        {
+          "type": "range",
+          "id": "border_radius_in_px",
+          "label": "Border radius",
+          "unit": "px",
+          "min": 0,
+          "max": 30,
+          "step": 1,
+          "default": 8
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border color"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        }
+      ]
+    },
+    {
+      "type": "quick_buy",
+      "name": "Quick buy",
+      "limit": 1,
+      "settings": [
+        {
+          "type": "header",
+          "content": "Mobile view settings"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Mobile icon",
+          "options": [
+            {
+              "value": "shopping_basket",
+              "label": "Shopping basket"
+            },
+            {
+              "value": "tote_bag",
+              "label": "Tote bag"
+            },
+            {
+              "value": "shopping_cart",
+              "label": "Shopping cart"
+            }
+          ],
+          "default": "shopping_basket"
+        },
+        {
+          "type": "color",
+          "id": "mobile_text_color",
+          "label": "Icon color"
+        },
+        {
+          "type": "color",
+          "id": "mobile_background_color",
+          "label": "Background color"
+        },
+        {
+          "type": "color_background",
+          "id": "mobile_background",
+          "label": "Background gradient"
+        },
+        {
+          "type": "color",
+          "id": "mobile_border_color",
+          "label": "Border color"
+        },
+        {
+          "type": "header",
+          "content": "Desktop view settings"
+        },
+        {
+          "type": "color",
+          "id": "border_color",
+          "label": "Border color"
+        },
+        {
+          "type": "range",
+          "id": "border_width_in_px",
+          "label": "Border width",
+          "unit": "px",
+          "min": 0,
+          "max": 8,
+          "step": 0.2,
+          "default": 1
+        },
+        {
+          "type": "color",
+          "id": "hover_border_color",
+          "label": "Hover border color"
+        },
+        {
+          "type": "range",
+          "id": "hover_border_width_in_px",
+          "label": "Hover border width",
+          "unit": "px",
+          "min": 0,
+          "max": 8,
+          "step": 0.2,
+          "default": 1
+        },
+        {
+          "type": "range",
+          "id": "border_radius_in_px",
+          "label": "Border radius",
+          "unit": "px",
+          "min": 0,
+          "max": 100,
+          "step": 1,
+          "default": 60
+        },
+        {
+          "type": "color",
+          "id": "background_color",
+          "label": "Background color"
+        },
+        {
+          "type": "color_background",
+          "id": "background",
+          "label": "Background",
+          "default": "linear-gradient(#ffffff, #000000)"
+        },
+        {
+          "type": "color",
+          "id": "hover_background_color",
+          "label": "Hover background color"
+        },
+        {
+          "type": "color_background",
+          "id": "hover_background",
+          "label": "Hover background",
+          "default": "linear-gradient(#ffffff, #000000)"
+        },
+        {
+          "type": "color",
+          "id": "text_color",
+          "label": "Text color"
+        },
+        {
+          "type": "range",
+          "id": "font_size_in_px",
+          "label": "Font size",
+          "unit": "px",
+          "min": 8,
+          "max": 60,
+          "step": 1,
+          "default": 12
+        },
+        {
+          "type": "font_picker",
+          "id": "font_family",
+          "label": "Choose a Font",
+          "default": "helvetica_n4"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_in_product_infos",
+          "label": "Show button in product infos",
+          "info": "if true, show on product infos. If false, show over product image"
+        },
+        {
+          "type": "checkbox",
+          "id": "show_price",
+          "label": "Show price"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Related products"
+    }
+  ]
+}
+{% endschema %}

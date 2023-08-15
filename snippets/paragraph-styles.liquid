@@ -1,0 +1,49 @@
+{%- comment -%} 
+Styles for paragraphs
+
+id: id of the element to target
+font: either same as parent or a font 1, 2 or 3
+font_size_in_px: multiplying coefficient between 1 and 5
+italic_font: : either same as rest of paragraph or a font 1, 2 or 3
+text_color: hex color
+max_width: percentage
+{%- endcomment -%}
+ 
+ #{{ id }} {
+
+    {%- if font_size_in_px != blank -%}
+        font-size: {{ font_size_in_px }}px;
+    {% endif %}
+
+    {%- if max_width != 100 -%}
+        max-width: {{ max_width }}%;
+        display: inline-block;
+    {%- endif -%}
+
+    {%- if text_color != "transparent" and text_color != blank -%}
+        color: {{ text_color }};
+    {%- endif -%}
+
+    {%- if rotation_deg != blank and rotation_deg != 0 -%}
+        transform: rotate({{ rotation_deg }}deg);
+        transform-origin: center;
+    {%- endif -%}
+
+    {%- if checkbox_underline == true -%}
+        text-decoration: underline;
+        {%- if underline_color != blank -%}
+            text-decoration-color: {{ underline_color }};
+        {%- endif -%}
+    {%- endif -%}
+
+    {%- if text_gradient != blank -%}
+        background-image: {{ text_gradient }};
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    {%- endif -%}
+
+    {% if background_color != blank %}
+       background: {{ background_color }};
+    {% endif %}
+
+}

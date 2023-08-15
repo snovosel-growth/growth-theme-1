@@ -1,0 +1,169 @@
+{%- comment -%}
+----------------------------------------------------------------------------------------------------------------------
+QUICK BUY BUTTON COMPONENT
+----------------------------------------------------------------------------------------------------------------------
+
+This component is used in featured collection to render a quick buy button customizable
+
+********************************************
+Supported variables
+********************************************
+
+* product: the product to render
+* hover_disabled: if true, the button is always shown and not placed absolute
+* apply_section_block_settings: if true, use the block parameter to apply its settings
+* block: the block parameter
+{%- endcomment -%}
+
+{%- if apply_section_block_settings -%}
+  {%- assign hover_disabled = block.settings.show_in_product_infos -%}
+
+  <style>
+    #shopify-section-{{ section.id }} .product-{{block.type}}:not(button) {
+      left: var(--product-card-quick-buy-inset);
+      {%- if block.settings.show_in_product_infos -%}
+        position: relative;
+        transform: none;
+        bottom: auto;
+        left: 0px;
+      {%- endif -%}
+      {%- if hover_disabled -%}
+        opacity: 1;
+        visibility: visible;
+      {%- endif -%}
+      z-index: 6;
+    }
+
+    
+    #shopify-section-{{ section.id }} .product-{{block.type}}:is(button) {
+      border: none; /* Avoid double border trigger */
+    }
+
+    #shopify-section-{{ section.id }} .product-card__mobile-quick-buy-button {
+      {%- if block.settings.mobile_text_color != "rgba(0,0,0,0)" -%}color: {{ block.settings.mobile_text_color }};{%- endif -%}
+      {%- if block.settings.mobile_background_color != blank and block.settings.mobile_background_color != "rgba(0,0,0,0)" -%}background-color: {{ block.settings.mobile_background_color }};{%- endif -%}
+      {%- if block.settings.mobile_background != blank -%}background: {{ block.settings.mobile_background }};{%- endif -%}
+      {%- if block.settings.mobile_border_color != blank -%}border-color: {{ block.settings.mobile_border_color }};{%- endif -%}
+    }
+
+    @media screen and (pointer: fine) {
+      #shopify-section-{{ section.id }} .product-{{block.type}}:not(button) {
+        {%- if block.settings.show_in_product_infos -%}
+          right: 0px;
+          width: 100%;
+        {%- endif -%}
+      }
+    }
+
+    .inline-spacer {
+      margin-right: var(--spacing-2-5);
+      margin-left: var(--spacing-2-5);
+    }
+    
+    @media screen and (pointer: coarse) {
+      #shopify-section-{{ section.id }} .product-{{block.type}} {
+        background: none;
+        background-color: none;
+        border: none;
+        right: auto;
+        width: auto;
+      }
+      
+      #shopify-section-{{ section.id }} .product-{{block.type}}:hover {
+        background: none;
+        background-color: none;
+        border: none;
+      }
+    }
+
+    .inline-spacer {
+      margin-right: var(--spacing-2-5);
+      margin-left: var(--spacing-2-5);
+    }
+  </style>
+
+  {%- if product.available -%}
+    {%- capture custom_class -%}product-{{ block.type }}{%- endcapture -%}
+    <div class="product-card__quick-buy {{ custom_class }}">
+      {%- assign quick_add_label = 'product.general.quick_add' | t -%}
+      {%- capture label_to_display -%}{{quick_add_label}}{%- if block.settings.show_price -%}<span class="inline-spacer">|</span>{%- if settings.currency_code_enabled -%}{{- product.selected_or_first_available_variant.price | money_with_currency -}}{%- else -%}{{- product.selected_or_first_available_variant.price | money -}}{%- endif -%}{%- endif -%}{%- endcapture-%}
+      {%- if product.variants.size == 1 and product.selling_plan_groups.size == 0 -%}
+        {%- comment -%}
+        ----------------------------------------------------------------------------------------------------------------------
+        When quick buy immediately adds the product to cart
+        ----------------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+        {%- form 'product', product, is: 'product-form' -%}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+            <div class="pointer-fine:hidden">
+              <button type="submit" is="custom-button" class="product-card__mobile-quick-buy-button" aria-label="{{ quick_add_label | escape }}">
+                {%- render 'icon' with 'quick-buy-cart', block: block -%}
+              </button>
+            </div>
+
+            <div class="pointer-coarse:hidden">
+              {%- render 'button', type: 'submit', content: label_to_display, stretch: true, class: custom_class -%}
+            </div>
+        {%- endform -%}
+      {%- else -%}
+        {%- comment -%}
+        ----------------------------------------------------------------------------------------------------------------------
+        When there are variants to choose before adding the product to cart
+        ----------------------------------------------------------------------------------------------------------------------
+        {%- endcomment -%}
+        {%- capture quick_buy_id -%}quick-buy-{{ section.id }}-{{ product.id }}{%- endcapture -%}
+          <div class="pointer-fine:hidden">
+            <button type="button" aria-controls="{{ quick_buy_id }}" aria-expanded="false" aria-label="{{ quick_add_label | escape }}" is="custom-button" class="product-card__mobile-quick-buy-button">
+              {%- render 'icon' with 'quick-buy-cart', block: block -%}
+            </button>
+          </div>
+
+          <div class="pointer-coarse:hidden">
+            {%- render 'button', content: label_to_display, aria_controls: quick_buy_id, stretch: true, class: custom_class -%}
+          </div>
+        {%- endif -%}
+
+        <quick-buy-drawer id="{{ quick_buy_id }}" header-bordered open-from="bottom" handle="{{ product.handle }}" role="region" aria-live="polite" class="quick-buy-drawer drawer">
+          {%- comment -%}Quick buy content is filled on demand for performance reasons {%- endcomment -%}
+        </quick-buy-drawer>
+    </div>
+  {%- endif -%}
+{%- else -%}
+  {%- if show_quick_buy and product.available -%}
+    <div class="product-card__quick-buy">
+      {%- assign quick_add_label = 'product.general.quick_add' | t -%}
+
+      {%- if product.variants.size == 1 and product.selling_plan_groups.size == 0 -%}
+        {%- form 'product', product, is: 'product-form' -%}
+          <input type="hidden" name="id" value="{{ product.selected_or_first_available_variant.id }}">
+
+          <div class="pointer-fine:hidden">
+            <button type="submit" is="custom-button" class="product-card__mobile-quick-buy-button" aria-label="{{ quick_add_label | escape }}">
+              {%- render 'icon' with 'quick-buy-cart' -%}
+            </button>
+          </div>
+
+          <div class="pointer-coarse:hidden">
+            {%- render 'button', type: 'submit', content: quick_add_label -%}
+          </div>
+        {%- endform -%}
+      {%- else -%}
+        {%- capture quick_buy_id -%}quick-buy-{{ section.id }}-{{ product.id }}{%- endcapture -%}
+
+        <div class="pointer-fine:hidden">
+          <button type="button" aria-controls="{{ quick_buy_id }}" aria-expanded="false" aria-label="{{ quick_add_label | escape }}" is="custom-button" class="product-card__mobile-quick-buy-button">
+            {%- render 'icon' with 'quick-buy-cart' -%}
+          </button>
+        </div>
+
+        <div class="pointer-coarse:hidden">
+          {%- render 'button', content: quick_add_label, aria_controls: quick_buy_id, stretch: true -%}
+        </div>
+
+        <quick-buy-drawer id="{{ quick_buy_id }}" header-bordered open-from="bottom" handle="{{ product.handle }}" role="region" aria-live="polite" class="quick-buy-drawer drawer">
+          {%- comment -%}Quick buy content is filled on demand for performance reasons {%- endcomment -%}
+        </quick-buy-drawer>
+      {%- endif -%}
+    </div>
+  {%- endif -%}
+{%- endif -%}
