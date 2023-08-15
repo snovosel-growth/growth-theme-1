@@ -29,6 +29,10 @@
     --product-gallery-media-list-gap: calc(var(--grid-gutter) / 2);
   }
 
+  #shopify-section-{{ section.id }}.product-info__title {
+    font-size: block.settings.mobile_font_size;
+  }
+
   {%- if section.settings.desktop_media_layout == 'grid_highlight' -%}
     #shopify-section-{{ section.id }}.product-gallery__media-list > :not([hidden]) {
       grid-column: span 2;
@@ -95,7 +99,10 @@
             <div class="product-info__vendor" {{ block.shopify_attributes }}>{{- 'general.on_boarding.product_vendor' | t -}}</div>
 
             {%- when 'title' -%}
-            <h2 class="product-info__title {{ block.settings.heading_tag }}" {{ block.shopify_attributes }}>{{ 'general.on_boarding.product_title' | t }}</h2>
+            <h2
+              class="product-info__title {{ block.settings.heading_tag }} {% if block.settings.color_gradient != blank  %}text-gradient{% endif %}"
+              style="{% if block.settings.color_gradient != blank %} --gradient: {{ block.settings.color_gradient }}; {% else %} color: {{ block.settings.color }}; {% endif %}; text-align: {{ block.settings.alignment }}; font-size: {{ block.settings.desktop_font_size }}px;"
+              {{ block.shopify_attributes }}>{{ 'general.on_boarding.product_title' | t }}</h2>
 
             {%- when 'price' -%}
             <div class="product-info__price">
@@ -330,6 +337,52 @@
               }
             ],
             "default": "h2"
+          },
+          {
+            "type": "color",
+            "id": "color",
+            "label": "Color",
+            "default": "#1a1a1a"
+          },
+          {
+            "type": "color_background",
+            "id": "color_gradient",
+            "label": "Gradient Color"
+          },
+          {
+            "type": "select",
+            "id": "alignment",
+            "label": "Alignment",
+            "options": [
+              {
+                "value": "left",
+                "label": "Left"
+              }, {
+                "value": "center",
+                "label": "Center"
+              }, {
+                "value": "right",
+                "label": "Right"
+              }
+            ]
+          }, {
+            "type": "range",
+            "id": "desktop_font_size",
+            "label": "Desktop font size",
+            "min": 8,
+            "max": 72,
+            "step": 1,
+            "unit": "px",
+            "default": 40
+          }, {
+            "type": "range",
+            "id": "mobile_font_size",
+            "label": "Mobile font size",
+            "min": 8,
+            "max": 72,
+            "step": 1,
+            "unit": "px",
+            "default": 40
           }
         ]
       }, {
