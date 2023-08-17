@@ -1,0 +1,50 @@
+<style>
+  .featured-product-title__container {
+    {% if block_color_gradient != blank %}
+        --gradient: {{ block_color_gradient }};
+    {% elsif block_color != blank %}
+        color: {{ block_color }};
+    {% endif %}
+
+    {% if block_alignment != blank %}
+        text-align: {{ block_alignment }};
+    {% endif %}
+
+    {% if block_overwrite_theme_font == true %}
+        font-size: {{ block_desktop_font_size }}px;
+
+        @media screen and (max-width: 700px) {
+            font-size: {{ block_mobile_font_size }}px;
+        }
+    {% else %}
+        {% if block_font_style == 'heading' %}
+            {% if settings.heading_font_size == 'small' %}
+                font-size: 1rem;
+            {% elsif settings.heading_font_size == 'medium' %}
+                font-size: 1.5rem;
+            {% elsif settings.heading_font_size == 'large' %}
+                font-size: 2rem;
+            {% endif %}
+        {% elsif block_font_style == 'subheading' %}
+            font-size: {{ settings.subheader_text_font_size_desktop }}px;
+
+            @media screen and (max-width: 700px) {
+                font-size: {{ settings.subheader_text_font_size_mobile }}px;
+            }
+        {% elsif block_font_style == 'body' %}
+            font-size: {{ settings.text_font_size_desktop }}px;
+
+            @media screen and (max-width: 700px) {
+                font-size: {{ settings.text_font_size_mobile }}px;
+            }
+        {% endif %}
+    {% endif %}
+  }
+</style>
+
+{% capture Block_Class %}
+    featured-product-title__container
+    {% if block_color_gradient != blank %}text-gradient{% endif %}
+{% endcapture %}
+
+<h2 class="{{ Block_Class }}">{{ 'general.on_boarding.product_title' | t }}</h2>
