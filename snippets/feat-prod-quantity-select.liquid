@@ -1,0 +1,59 @@
+{% liquid
+  assign block_border_radius = block.settings.border_radius
+  assign block_border_width = block.settings.border_width
+  assign block_border_color = block.settings.border_color
+  assign block_text_color = block.settings.text_color
+  assign block_background_color = block.settings.background_color
+  assign block_position = block.settings.position
+%}
+
+<style>
+  .featured-product-description {
+      border-radius: {{ block_border_radius }}px;
+      border-width: {{ block_border_width }};
+      border-color: {{ block_border_color }};
+      color: {{ block_text_color }};
+      background-color: {{ block_background_color }};
+      float: {{ block_position }};
+  }
+</style>
+
+<div class="product-info__quantity-selector {{ block.shopify_attributes }}">
+  <div class="form-control">
+    <label for="{{ product_form_id }}-quantity" class="block-label text-subdued">
+      {{- 'product.quantity.label' | t -}}
+      :</label
+    >
+
+    <quantity-selector
+      class="quantity-selector featured-product-description"
+    >
+      <button
+        type="button"
+        class="quantity-selector__button"
+        aria-label="{{ 'product.quantity.decrease_quantity' | t }}"
+      >
+        {% render 'icon' with 'minus', width: 10, height: 2 %}
+      </button>
+      <input
+        id="{{ product_form_id }}-quantity"
+        type="text"
+        is="quantity-input"
+        inputmode="numeric"
+        class="quantity-selector__input"
+        name="quantity"
+        form="{{ product_form_id }}"
+        size="2"
+        value="1"
+        autocomplete="off"
+      >
+      <button
+        type="button"
+        class="quantity-selector__button"
+        aria-label="{{ 'product.quantity.increase_quantity' | t }}"
+      >
+        {% render 'icon' with 'plus', width: 10, height: 10 %}
+      </button>
+    </quantity-selector>
+  </div>
+</div>

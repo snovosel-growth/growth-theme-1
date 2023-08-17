@@ -1,0 +1,59 @@
+<style>
+  .media-gallery {
+      width: {{ block.settings.desktop_media_width }}%;
+      order: {% if block.settings.desktop_media_position == 'right' %}1{% else %}0{% endif %};
+  }
+</style>
+
+{% capture Product_Gallery_Class %}
+    product-gallery
+    {% if block.settings.mobile_carousel_control contains 'dots' %}product-gallery--mobile-dots{% endif %}
+    {% if block.settings.desktop_media_layout contains 'grid' %}product-gallery--desktop-grid{% else %}product-gallery--desktop-carousel{% endif %}
+    {% if block.settings.desktop_media_layout == 'carousel_thumbnails_left' %}product-gallery--desktop-thumbnails-left{% endif %}
+    {% if block.settings.mobile_media_size == 'expanded' %}product-gallery--mobile-expanded{% endif %}
+{% endcapture %}
+
+{% capture Media_Carousel_Class %}
+    product-gallery__media-list
+    scroll-area md:unbleed
+    {% if block.settings.mobile_media_size == 'expanded' %}full-bleed{% else %}bleed{% endif %}
+{% endcapture %}
+
+<div
+  class="media-gallery"
+>
+  {%- if block.settings.product != blank -%}
+    {%- if block_product.media.size > 0 -%}
+      {%- render 'product-gallery',
+        product: block_product,
+        desktop_media_layout: block.settings.desktop_media_layout
+      -%}
+    {%- endif -%}
+
+  {%- else -%}
+    <product-gallery
+      form="placeholder-{{ section.id }}"
+      class="{{ Product_Gallery_Class }}"
+      {{ block.shopify_attributes }}
+    >
+      <div class="product-gallery__ar-wrapper">
+        <div class="product-gallery__media-list-wrapper">
+          <media-carousel
+            desktop-mode="{{ block.settings.desktop_media_layout }}"
+            adaptive-height
+            class="{{ Media_Carousel_Class }}"
+          >
+            <div class="product-gallery__media {% if block.settings.mobile_carousel_control != 'free_scroll' %}snap-center{% endif %}">
+              {{-
+                'product-1'
+                | placeholder_svg_tag: 'placeholder'
+                | replace: '<svg', '<svg style="border-radius: %1px;"'
+                | replace: '%1', block.settings.media_border_radius
+              -}}
+            </div>
+          </media-carousel>
+        </div>
+      </div>
+    </product-gallery>
+  {%- endif -%}
+</div>

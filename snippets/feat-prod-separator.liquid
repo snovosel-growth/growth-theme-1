@@ -1,0 +1,20 @@
+{% liquid
+  assign block_width = block.settings.width
+  assign block_margin = block.settings.spacing
+  assign block_color = block.settings.color
+  assign block_border_width = block.settings.height
+%}
+
+<style>
+  .product-info__separator {
+      width: {{ block_width }}%;
+      margin: {{ block_margin }}px 0;
+      border-color: {{ block_color }};
+      border-width: {{ block_border_width }}px;
+  }
+</style>
+
+<hr
+  class="product-info__separator"
+  {{ block.shopify_attributes }}
+>

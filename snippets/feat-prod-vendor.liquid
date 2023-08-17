@@ -1,0 +1,75 @@
+{% liquid
+  # block settings
+  assign block_color_gradient = block.settings.color_gradient
+  assign block_color = block.settings.color
+  assign block_alignment = block.settings.alignment
+  assign block_desktop_font_size = block.settings.desktop_font_size
+  assign block_mobile_font_size = block.settings.mobile_font_size
+  assign block_overwrite_theme_font = block.settings.overwrite_theme_font
+
+  # theme settings
+  assign theme_heading_font_size = settings.heading_font_size
+
+  # subheader styles
+  assign theme_subheader_text_font_size_desktop = settings.subheader_text_font_size_desktop
+  assign theme_subheader_text_font_size_mobile = settings.subheader_text_font_size_mobile
+
+  # body styles
+  assign theme_body_text_font_size_desktop = settings.text_font_size_desktop
+  assign theme_body_text_font_size_mobile = settings.text_font_size_mobile
+%}
+
+<style>
+  .product-info__vendor {
+    {% if block_color_gradient != blank %}
+        --gradient: {{ block_color_gradient }};
+    {% elsif block_color != blank %}
+        color: {{ block_color }};
+    {% endif %}
+
+    {% if block_alignment != blank %}
+        text-align: {{ block_alignment }};
+    {% endif %}
+
+    {% if block_overwrite_theme_font == true %}
+        font-size: {{ block_desktop_font_size }}px;
+
+        @media screen and (max-width: 700px) {
+            font-size: {{ block_mobile_font_size }}px;
+        }
+    {% else %}
+        {% if block_font_style == 'heading' %}
+            {% if theme_heading_font_size == 'small' %}
+                font-size: 1rem;
+            {% elsif theme_heading_font_size == 'medium' %}
+                font-size: 1.5rem;
+            {% elsif theme_heading_font_size == 'large' %}
+                font-size: 2rem;
+            {% endif %}
+        {% elsif block_font_style == 'subheading' %}
+            font-size: {{ theme_subheader_text_font_size_desktop }}px;
+
+            @media screen and (max-width: 700px) {
+                font-size: {{ theme_subheader_text_font_size_mobile }}px;
+            }
+        {% elsif block_font_style == 'body' %}
+            font-size: {{ theme_body_text_font_size_desktop }}px;
+
+            @media screen and (max-width: 700px) {
+                font-size: {{ theme_body_text_font_size_mobile }}px;
+            }
+        {% endif %}
+    {% endif %}
+  }
+</style>
+
+{% capture Block_Class %}
+    product-info__vendor
+    {% if block_color_gradient != blank %}text-gradient{% endif %}
+{% endcapture %}
+
+<div
+  class="{{ Block_Class }}"
+>
+  {{ 'general.on_boarding.product_vendor' | t }}
+</div>

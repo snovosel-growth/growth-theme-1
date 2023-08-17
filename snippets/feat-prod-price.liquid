@@ -1,0 +1,45 @@
+{% liquid
+  assign block_alignment = block.settings.alignment
+  assign block_discounted_price_desktop_font_size = block.settings.discounted_price_desktop_font_size
+  assign block_discounted_price_color = block.settings.discounted_price_color
+  assign block_inverted = block.settings.inverted
+  assign block_original_price_desktop_font_size = block.settings.original_price_desktop_font_size
+  assign block_original_price_color = block.settings.original_price_color
+  assign block_show_discount = block.settings.show_discount
+%}
+
+<style>
+  .price-list {
+      justify-content: {{ block_alignment }};
+  }
+
+  .sale-price__original {
+      {% if block_inverted == true %}order: 1;{% endif %}
+
+      font-size: {{ block_original_price_desktop_font_size }}px;
+      color: {{ block_original_price_color }}
+  }
+
+  .discounted_price {
+    font-size: {{ block_discounted_price_desktop_font_size }}px;
+    color: {{ block_discounted_price_color }}
+  }
+</style>
+
+<div class="product-info__price">
+  <price-list class="price-list price-list--lg">
+    <sale-price
+      class="text-lg sale-price__original"
+    >
+      {{ 4000 | money }}
+    </sale-price>
+
+    {% if block_show_discount %}
+      <compare-at-price
+        class="text-subdued line-through discounted_price"
+      >
+        {{ 3000 | money }}
+      </compare-at-price>
+    {% endif %}
+  </price-list>
+</div>

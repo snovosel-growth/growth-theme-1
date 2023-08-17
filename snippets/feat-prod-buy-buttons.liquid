@@ -1,0 +1,18 @@
+{% liquid
+  assign block_atc_button_background = block.settings.atc_button_background
+  assign block_atc_button_text_color = block.settings.atc_button_text_color
+%}
+
+<div class="product-info__buy-buttons" {{ block.shopify_attributes }}>
+  <buy-buttons class="buy-buttons">
+    {%- capture button_content -%}
+      {{ 'product.general.add_to_cart_button' | t }}{%- endcapture -%}
+    {%- render 'button',
+      content: button_content,
+      type: 'submit',
+      size: 'xl',
+      background: block_atc_button_background,
+      text_color: block_atc_button_text_color
+    -%}
+  </buy-buttons>
+</div>
