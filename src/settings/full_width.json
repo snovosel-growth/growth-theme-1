@@ -1,0 +1,8 @@
+{
+    "name": "Full width",
+    "description": "Should the target take up the full width of its parent",
+    "type": "checkbox",
+    "id": "full_width",
+    "label": "Full width",
+    "default": true
+}

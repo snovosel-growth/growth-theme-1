@@ -53,177 +53,43 @@
 
 <div {% render 'section-properties', tight: true %}>
   <div class="product">
-    {%- for block in section.blocks -%}
-      {%- case block.type -%}
-        {%- when 'media_gallery' -%}
-          <div
-            class="media-gallery"
-            style="width: {{ block.settings.desktop_media_width }}%; order: {% if block.settings.desktop_media_position == 'right' %}1{% else %}0{% endif %};"
-          >
-            {%- if block.settings.product != blank -%}
-              {%- if block.settings.product.media.size > 0 -%}
-                {%- render 'product-gallery',
-                  product: block.settings.product,
-                  desktop_media_layout: block.settings.desktop_media_layout
-                -%}
-              {%- endif -%}
-
-            {%- else -%}
-              <product-gallery
-                form="placeholder-{{ section.id }}"
-                class="product-gallery {% if block.settings.mobile_carousel_control contains 'dots' %}product-gallery--mobile-dots{% endif %} {% if block.settings.desktop_media_layout contains 'grid' %}product-gallery--desktop-grid{% else %}product-gallery--desktop-carousel{% endif %} {% if block.settings.desktop_media_layout == 'carousel_thumbnails_left' %}product-gallery--desktop-thumbnails-left{% endif %} {% if block.settings.mobile_media_size == 'expanded' %}product-gallery--mobile-expanded{% endif %}"
-                {{ block.shopify_attributes }}
-              >
-                <div class="product-gallery__ar-wrapper">
-                  <div class="product-gallery__media-list-wrapper">
-                    <media-carousel
-                      desktop-mode="{{ block.settings.desktop_media_layout }}"
-                      adaptive-height
-                      class="product-gallery__media-list {% if block.settings.mobile_media_size == 'expanded' %}full-bleed{% else %}bleed{% endif %} scroll-area md:unbleed"
-                    >
-                      <div class="product-gallery__media {% if block.settings.mobile_carousel_control != 'free_scroll' %}snap-center{% endif %}">
-                        {{-
-                          'product-1'
-                          | placeholder_svg_tag: 'placeholder'
-                          | replace: '<svg', '<svg style="border-radius: %1px;"'
-                          | replace: '%1', block.settings.media_border_radius
-                        -}}
-                      </div>
-                    </media-carousel>
-                  </div>
-                </div>
-              </product-gallery>
-            {%- endif -%}
-          </div>
-      {%- endcase -%}
-    {%- endfor -%}
+    {% assign media_gallery_blocks = section.blocks | where: 'type', 'feat-prod-media-gallery' %}
+    {% if media_gallery_blocks.size > 0 %}
+      {% for block in media_gallery_blocks %}
+        {% render 'feat-prod-media-gallery', with block: block, section: section %}
+      {% endfor %}
+    {% endif %}
 
     <div class="product-info" {% render 'section-properties', tight: true %}>
       {%- capture product_form_id -%}featured-product-form-{{ section.id }}{%- endcapture -%}
 
       <div class="product-info__container">
         {%- for block in section.blocks -%}
-          {%- case block.type -%}
-            {%- when 'vendor' -%}
-              <div
-                class="product-info__vendor {% if block.settings.color_gradient != blank  %}text-gradient{% endif %}"
-                style="
-                  {% if block.settings.color_gradient != blank %}
-                    --gradient: {{ block.settings.color_gradient }};
-                  {% else %}
-                    color: {{ block.settings.color }};
-                  {% endif %};
-                  text-align: {{ block.settings.alignment }};
-                "
-                {{ block.shopify_attributes }}
-              >
-                {{- 'general.on_boarding.product_vendor' | t -}}
-              </div>
+          {% case block.type %}
+            {% when 'feat-prod-vendor' %}
+              {% render 'feat-prod-vendor' %}
 
-            {%- when 'title' -%}
-              {%- render 'featured-product-title',
-                block_font_style: block.settings.font_style,
-                block_color_gradient: block.settings.color_gradient,
-                block_shopify_attributes: block.shopify_attributes,
-                block_color: block.settings.color,
-                block_desktop_font_size: block.settings.desktop_font_size,
-                block_mobile_font_size: block.settings.mobile_font_size,
-                block_alignment: block.settings.alignment,
-                block_overwrite_theme_font: block.settings.overwrite_theme_font
-              -%}
+            {% when 'feat-prod-title' %}
+              {% render 'feat-prod-title' %}
 
-            {%- when 'price' -%}
-              <div class="product-info__price">
-                <price-list class="price-list price-list--lg" style="justify-content: {{ block.settings.alignment }}; ">
-                  <sale-price
-                    class="text-lg"
-                    style="{% if block.settings.inverted == true %}order: 1;{% endif %}font-size: {{ block.settings.original_price_desktop_font_size }}px; color: {{ block.settings.original_price_color }}"
-                  >
-                    {{ 4000 | money }}
-                  </sale-price>
+            {% when 'feat-prod-price' %}
+              {% render 'feat-prod-price' %}
 
-                  {% if block.settings.show_discount %}
-                    <compare-at-price
-                      class="text-subdued line-through"
-                      style="font-size: {{ block.settings.discounted_price_desktop_font_size }}px; color: {{ block.settings.discounted_price_color }}"
-                    >
-                      {{ 3000 | money }}
-                    </compare-at-price>
-                  {% endif %}
-                </price-list>
-              </div>
+            {% when 'feat-prod-separator' %}
+              {% render 'feat-prod-separator' %}
 
-            {%- when 'separator' -%}
-              <hr
-                class="product-info__separator"
-                style="width: {{ block.settings.width }}%; margin: {{ block.settings.spacing }}px 0; }}; border-color: {{ block.settings.color }}; border-width: {{ block.settings.height }}px;"
-                {{ block.shopify_attributes }}
-              >
+            {% when 'feat-prod-description' %}
+              {% render 'feat-prod-description' %}
 
-            {%- when 'description' -%}
-              <div class="product-info__description" {{ block.shopify_attributes }}>
-                <div class="prose">
-                  {{- 'general.on_boarding.product_description' | t -}}
-                </div>
-              </div>
+            {% when 'variant-picker' %}
+              {% render 'variant-picker' %}
 
-            {%- when 'quantity_selector' -%}
-              <div class="product-info__quantity-selector {{ block.shopify_attributes }}">
-                <div class="form-control">
-                  <label for="{{ product_form_id }}-quantity" class="block-label text-subdued">
-                    {{- 'product.quantity.label' | t -}}
-                    :</label
-                  >
+            {% when 'feat-prod-quantity-select' %}
+              {% render 'feat-prod-quantity-select' %}
 
-                  <quantity-selector
-                    class="quantity-selector"
-                    style="border-radius: {{ block.settings.border_radius }}px; border-width: {{ block.settings.border_width }}; border-color: {{ block.settings.border_color }}; color: {{ block.settings.text_color }}; background-color: {{ block.settings.background_color }}; float: {{ block.settings.position }}"
-                  >
-                    <button
-                      type="button"
-                      class="quantity-selector__button"
-                      aria-label="{{ 'product.quantity.decrease_quantity' | t }}"
-                    >
-                      {% render 'icon' with 'minus', width: 10, height: 2 %}
-                    </button>
-                    <input
-                      id="{{ product_form_id }}-quantity"
-                      type="text"
-                      is="quantity-input"
-                      inputmode="numeric"
-                      class="quantity-selector__input"
-                      name="quantity"
-                      form="{{ product_form_id }}"
-                      size="2"
-                      value="1"
-                      autocomplete="off"
-                    >
-                    <button
-                      type="button"
-                      class="quantity-selector__button"
-                      aria-label="{{ 'product.quantity.increase_quantity' | t }}"
-                    >
-                      {% render 'icon' with 'plus', width: 10, height: 10 %}
-                    </button>
-                  </quantity-selector>
-                </div>
-              </div>
-
-            {%- when 'buy_buttons' -%}
-              <div class="product-info__buy-buttons" {{ block.shopify_attributes }}>
-                <buy-buttons class="buy-buttons">
-                  {%- capture button_content -%}
-                  {{ 'product.general.add_to_cart_button' | t }}{%- endcapture -%}
-                  {%- render 'button',
-                    content: button_content,
-                    type: 'submit',
-                    size: 'xl',
-                    background: block.settings.atc_button_background,
-                    text_color: block.settings.atc_button_text_color
-                  -%}
-                </buy-buttons>
-              </div>
-          {%- endcase -%}
+            {% when 'feat-prod-buy-buttons' %}
+              {% render 'feat-prod-buy-buttons' %}
+          {% endcase %}
         {%- endfor -%}
       </div>
     </div>
@@ -241,7 +107,7 @@
   },
   "blocks": [
     {
-      "type": "media_gallery",
+      "type": "feat-prod-media-gallery",
       "name": "Media Gallery",
       "settings": [
         {
@@ -376,7 +242,7 @@
       "type": "@app"
     },
     {
-      "type": "vendor",
+      "type": "feat-prod-vendor",
       "name": "Vendor",
       "limit": 1,
       "settings": [
@@ -413,7 +279,7 @@
       ]
     },
     {
-      "type": "title",
+      "type": "feat-prod-title",
       "name": "Title",
       "limit": 1,
       "settings": [
@@ -512,7 +378,7 @@
       ]
     },
     {
-      "type": "price",
+      "type": "feat-prod-price",
       "name": "Price",
       "limit": 1,
       "settings": [
@@ -644,7 +510,7 @@
       ]
     },
     {
-      "type": "separator",
+      "type": "feat-prod-separator",
       "name": "Separator",
       "settings": [
         {
@@ -686,7 +552,7 @@
       ]
     },
     {
-      "type": "description",
+      "type": "feat-prod-description",
       "name": "Description",
       "limit": 1,
       "settings": [
@@ -904,7 +770,7 @@
       ]
     },
     {
-      "type": "quantity_selector",
+      "type": "feat-prod-quantity-select",
       "name": "Quantity selector",
       "limit": 1,
       "settings": [
@@ -984,7 +850,7 @@
       ]
     },
     {
-      "type": "buy_buttons",
+      "type": "feat-prod-buy-buttons",
       "name": "Buy buttons",
       "limit": 1,
       "settings": [
@@ -1685,34 +1551,34 @@
       "name": "Featured product",
       "blocks": [
         {
-          "type": "vendor"
+          "type": "feat-prod-vendor"
         },
         {
-          "type": "title"
+          "type": "feat-prod-title"
         },
         {
           "type": "badges"
         },
         {
-          "type": "price"
+          "type": "feat-prod-price"
         },
         {
           "type": "rating"
         },
         {
-          "type": "separator"
+          "type": "feat-prod-separator"
         },
         {
-          "type": "description"
+          "type": "feat-prod-description"
         },
         {
           "type": "variant_picker"
         },
         {
-          "type": "quantity_selector"
+          "type": "feat-prod-quantity-select"
         },
         {
-          "type": "buy_buttons"
+          "type": "feat-prod-buy-buttons"
         },
         {
           "type": "pickup_availability"
