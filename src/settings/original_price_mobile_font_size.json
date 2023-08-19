@@ -1,0 +1,10 @@
+{
+    "type": "range",
+    "id": "original_price_mobile_font_size",
+    "label": "Mobile font size",
+    "min": 8,
+    "max": 52,
+    "step": 1,
+    "unit": "px",
+    "default": 14
+}

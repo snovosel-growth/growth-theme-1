@@ -1,0 +1,10 @@
+{
+    "type": "feat-prod-description",
+    "name": "Description",
+    "limit": 1,
+    "settings": [
+        "collapse_content",
+        "position",
+        "text_color"
+    ]
+}

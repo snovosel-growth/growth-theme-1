@@ -1,0 +1,6 @@
+{
+    "type": "checkbox",
+    "id": "collapse_content",
+    "label": "Collapse content",
+    "default": false
+}

@@ -1,0 +1,7 @@
+{
+    "type": "checkbox",
+    "id": "enable_video_autoplay",
+    "label": "Enable video autoplay",
+    "info": "Video are muted automatically to allow autoplay. Grid mode on desktop turn off autoplay.",
+    "default": true
+}

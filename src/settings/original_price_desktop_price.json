@@ -1,0 +1,10 @@
+{
+    "type": "range",
+    "id": "original_price_desktop_font_size",
+    "label": "Desktop font size",
+    "min": 8,
+    "max": 52,
+    "step": 1,
+    "unit": "px",
+    "default": 20
+}

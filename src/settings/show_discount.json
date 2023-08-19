@@ -1,0 +1,6 @@
+{
+    "type": "checkbox",
+    "id": "show_discount",
+    "label": "Show discount",
+    "default": false
+}

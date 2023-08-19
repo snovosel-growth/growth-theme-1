@@ -1,0 +1,16 @@
+{
+    "type": "select",
+    "id": "mobile_media_size",
+    "label": "Mobile media size",
+    "options": [
+        {
+            "value": "expanded",
+            "label": "Expanded"
+        },
+        {
+            "value": "contained",
+            "label": "Contained"
+        }
+    ],
+    "default": "expanded"
+}

@@ -1,0 +1,10 @@
+{
+    "type": "range",
+    "id": "spacing",
+    "label": "Spacing",
+    "min": 0,
+    "max": 30,
+    "step": 1,
+    "unit": "px",
+    "default": 12
+}

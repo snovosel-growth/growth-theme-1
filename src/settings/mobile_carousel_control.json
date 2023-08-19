@@ -1,0 +1,24 @@
+{
+    "type": "select",
+    "id": "mobile_carousel_control",
+    "label": "Mobile carousel control",
+    "options": [
+        {
+            "value": "dots",
+            "label": "Dots"
+        },
+        {
+            "value": "floating_dots",
+            "label": "Floating dots"
+        },
+        {
+            "value": "thumbnails",
+            "label": "Thumbnails"
+        },
+        {
+            "value": "free_scroll",
+            "label": "Free scroll"
+        }
+    ],
+    "default": "floating_dots"
+}

@@ -1,0 +1,24 @@
+{
+    "type": "select",
+    "id": "desktop_media_layout",
+    "label": "Desktop media layout",
+    "options": [
+        {
+            "value": "grid",
+            "label": "Grid"
+        },
+        {
+            "value": "grid_highlight",
+            "label": "Grid with main media"
+        },
+        {
+            "value": "carousel_thumbnails_left",
+            "label": "Thumbnails left (carousel)"
+        },
+        {
+            "value": "carousel_thumbnails_bottom",
+            "label": "Thumbnails bottom (carousel)"
+        }
+    ],
+    "default": "carousel_thumbnails_left"
+}

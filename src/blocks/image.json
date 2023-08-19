@@ -1,0 +1,41 @@
+{
+    "type": "image",
+    "name": "Image",
+    "settings": [
+        {
+            "type": "image_picker",
+            "id": "image",
+            "label": "Image"
+        },
+        {
+            "type": "select",
+            "id": "alignment",
+            "label": "Alignment",
+            "options": [
+                {
+                    "value": "start",
+                    "label": "Left"
+                },
+                {
+                    "value": "center",
+                    "label": "Center"
+                },
+                {
+                    "value": "end",
+                    "label": "Right"
+                }
+            ],
+            "default": "start"
+        },
+        {
+            "type": "range",
+            "id": "max_width",
+            "min": 50,
+            "max": 500,
+            "step": 10,
+            "unit": "px",
+            "label": "Width",
+            "default": 150
+        }
+    ]
+}

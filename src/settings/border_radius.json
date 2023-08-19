@@ -1,0 +1,10 @@
+{
+    "type": "range",
+    "id": "media_border_radius",
+    "label": "Media border radius",
+    "min": 0,
+    "max": 100,
+    "step": 1,
+    "unit": "px",
+    "default": 0
+}

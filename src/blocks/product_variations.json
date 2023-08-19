@@ -1,0 +1,54 @@
+{
+    "type": "product_variations",
+    "name": "Product variations",
+    "limit": 1,
+    "settings": [
+        {
+            "type": "paragraph",
+            "content": "Link products of different colors using swatches. [Learn more](https://support.maestrooo.com/article/307-product-creating-product-variations-that-link-to-different-pages)"
+        },
+        {
+            "type": "text",
+            "id": "option_name",
+            "label": "Option name",
+            "info": "Example: Color, Style..."
+        },
+        {
+            "type": "text",
+            "id": "option_value_metafield",
+            "label": "Option value metafield",
+            "info": "Enter namespace and key of the metafield holding the value. Eg.: custom.color"
+        },
+        {
+            "type": "product_list",
+            "id": "products",
+            "label": "Products",
+            "info": "Select all the variations (including the product itself)."
+        },
+        {
+            "type": "select",
+            "id": "color_mode",
+            "label": "Selector type",
+            "info": "Product image mode requires that all variant have an associated image. [Learn more](https://help.shopify.com/en/manual/products/product-media/add-images-variants#add-images-to-existing-variants)",
+            "options": [
+                {
+                    "value": "block",
+                    "label": "Block"
+                },
+                {
+                    "value": "block_swatch",
+                    "label": "Block with color swatch"
+                },
+                {
+                    "value": "color",
+                    "label": "Color swatch"
+                },
+                {
+                    "value": "variant",
+                    "label": "Product image"
+                }
+            ],
+            "default": "color"
+        }
+    ]
+}

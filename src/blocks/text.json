@@ -1,0 +1,12 @@
+{
+    "type": "text",
+    "name": "Text",
+    "settings": [
+        {
+            "type": "richtext",
+            "id": "text",
+            "label": "Text",
+            "default": "<p>Share some content to your customers about your products.</p>"
+        }
+    ]
+}

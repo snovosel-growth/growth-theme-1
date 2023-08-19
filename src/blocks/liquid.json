@@ -1,0 +1,12 @@
+{
+    "type": "liquid",
+    "name": "Custom Liquid",
+    "settings": [
+        {
+            "type": "liquid",
+            "id": "liquid",
+            "label": "Liquid",
+            "info": "Add app snippets or other Liquid code to create advanced customizations."
+        }
+    ]
+}

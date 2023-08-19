@@ -1,0 +1,22 @@
+{
+    "type": "feat-prod-media-gallery",
+    "name": "Media Gallery",
+    "settings": [
+        {
+            "type": "header",
+            "content": "Media"
+        },
+        {
+            "type": "paragraph",
+            "content": "Learn more about [media types](https://help.shopify.com/en/manual/products/product-media)"
+        },
+        "position",
+        "width",
+        "desktop_media_layout",
+        "mobile_media_size",
+        "mobile_carousel_control",
+        "video_autoplay",
+        "video_looping",
+        "border_radius"
+    ]
+}

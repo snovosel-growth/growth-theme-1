@@ -1,0 +1,14 @@
+{
+    "type": "feat-prod-price",
+    "name": "Price",
+    "limit": 1,
+    "settings": [
+        "show_discount",
+        "show_taxes_notice",
+        "inverted",
+        "position",
+        "desktop_font_size",
+        "mobile_font_size",
+        "text_color"
+    ]
+}

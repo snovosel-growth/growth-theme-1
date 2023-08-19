@@ -1,0 +1,6 @@
+{
+    "type": "checkbox",
+    "id": "show_taxes_notice",
+    "label": "Show taxes notice",
+    "default": false
+}

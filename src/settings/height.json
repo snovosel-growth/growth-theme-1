@@ -1,0 +1,10 @@
+{
+    "type": "range",
+    "id": "height",
+    "label": "Height",
+    "min": 0,
+    "max": 10,
+    "step": 1,
+    "unit": "px",
+    "default": 1
+}

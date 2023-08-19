@@ -1,0 +1,38 @@
+{
+    "name": "Featured Product",
+    "class": "shopify-section--featured-product",
+    "tag": "section",
+    "disabled_on": [],
+    "blocks": [
+        "feat_prod_media_gallery.json",
+        "app",
+        "feat_prod_vendor",
+        "feat_prod_title",
+        "sku",
+        "badges",
+        "feat_prod_price",
+        "payment_terms",
+        "rating",
+        "feat_prod_separator",
+        "feat_prod_description",
+        "variant_picker",
+        "product_variations",
+        "line_item_property",
+        "feat_prod_quantity_select",
+        "inventory",
+        "feat_prod_buy_buttons",
+        "pickup_availability",
+        "text",
+        "collapsible_text",
+        "image",
+        "button",
+        "liquid",
+        "associated_products",
+        "offer",
+        "share_buttons"
+    ],
+    "settings": [
+        "full_width",
+        "background_color"
+    ]
+}

@@ -1,0 +1,55 @@
+{
+    "type": "line_item_property",
+    "name": "Line item property",
+    "settings": [
+        {
+            "type": "paragraph",
+            "content": "Line item properties are used to collect customization information for an item added to the cart."
+        },
+        {
+            "type": "text",
+            "id": "label",
+            "label": "Label",
+            "default": "Your label"
+        },
+        {
+            "type": "select",
+            "id": "type",
+            "label": "Type",
+            "options": [
+                {
+                    "value": "text",
+                    "label": "Text"
+                },
+                {
+                    "value": "checkbox",
+                    "label": "Checkbox"
+                }
+            ],
+            "default": "text"
+        },
+        {
+            "type": "checkbox",
+            "id": "required",
+            "label": "Required",
+            "info": "For text property, the customer must write a text ; for checkbox, the customer must check it to add to cart.",
+            "default": false
+        },
+        {
+            "type": "header",
+            "content": "Text",
+            "info": "Only applicable for line item property of type Text."
+        },
+        {
+            "type": "checkbox",
+            "id": "allow_long_text",
+            "label": "Allow long text",
+            "default": false
+        },
+        {
+            "type": "number",
+            "id": "max_length",
+            "label": "Maximum number of characters"
+        }
+    ]
+}

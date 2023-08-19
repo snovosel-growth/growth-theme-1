@@ -1,0 +1,17 @@
+{
+    "type": "rating",
+    "name": "Rating",
+    "limit": 1,
+    "settings": [
+        {
+            "type": "paragraph",
+            "content": "To display a rating, add a product rating app. [Learn more](https://help.shopify.com/en/manual/products/product-reviews/installation)"
+        },
+        {
+            "type": "checkbox",
+            "id": "show_empty",
+            "label": "Show if no reviews",
+            "default": false
+        }
+    ]
+}

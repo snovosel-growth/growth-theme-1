@@ -1,0 +1,6 @@
+{
+    "type": "checkbox",
+    "id": "enable_video_looping",
+    "label": "Enable video looping",
+    "default": false
+}

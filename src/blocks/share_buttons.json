@@ -1,0 +1,30 @@
+{
+    "type": "share_buttons",
+    "name": "Share buttons",
+    "settings": [
+        {
+            "type": "paragraph",
+            "content": "To improve user experience and performance, native share buttons are used when supported."
+        },
+        {
+            "type": "select",
+            "id": "alignment",
+            "label": "Alignment",
+            "options": [
+                {
+                    "value": "start",
+                    "label": "Left"
+                },
+                {
+                    "value": "center",
+                    "label": "Center"
+                },
+                {
+                    "value": "end",
+                    "label": "Right"
+                }
+            ],
+            "default": "start"
+        }
+    ]
+}

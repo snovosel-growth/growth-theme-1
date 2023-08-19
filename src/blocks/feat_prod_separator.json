@@ -1,0 +1,10 @@
+{
+    "type": "feat-prod-separator",
+    "name": "Separator",
+    "settings": [
+        "width",
+        "spacing",
+        "height",
+        "background_color"
+    ]
+}

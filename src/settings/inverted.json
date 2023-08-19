@@ -1,0 +1,6 @@
+{
+    "type": "checkbox",
+    "id": "inverted",
+    "label": "Inverted",
+    "default": false
+}

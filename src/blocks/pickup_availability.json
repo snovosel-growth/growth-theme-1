@@ -1,0 +1,11 @@
+{
+    "type": "pickup_availability",
+    "name": "Pickup availability",
+    "limit": 1,
+    "settings": [
+        {
+            "type": "paragraph",
+            "content": "Allow your customers to see availability in retail stores by [setting up local pickup](https://help.shopify.com/en/manual/sell-in-person/shopify-pos/order-management/local-pickup-for-online-orders)."
+        }
+    ]
+}

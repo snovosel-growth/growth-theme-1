@@ -1,0 +1,70 @@
+{
+    "type": "variant_picker",
+    "name": "Variant picker",
+    "limit": 1,
+    "settings": [
+        {
+            "type": "checkbox",
+            "id": "hide_sold_out_variants",
+            "label": "Hide sold out variants",
+            "default": false
+        },
+        {
+            "type": "checkbox",
+            "id": "stack_blocks",
+            "label": "Stack options on mobile",
+            "default": true
+        },
+        {
+            "type": "select",
+            "id": "selector_mode",
+            "label": "Selector type",
+            "options": [
+                {
+                    "value": "block",
+                    "label": "Block"
+                },
+                {
+                    "value": "dropdown",
+                    "label": "Dropdown"
+                }
+            ],
+            "default": "block"
+        },
+        {
+            "type": "select",
+            "id": "color_mode",
+            "label": "Color selector type",
+            "info": "Variant image mode requires that all variant have an associated image. [Learn more](https://help.shopify.com/en/manual/products/product-media/add-images-variants#add-images-to-existing-variants)",
+            "options": [
+                {
+                    "value": "block",
+                    "label": "Block"
+                },
+                {
+                    "value": "block_swatch",
+                    "label": "Block with color swatch"
+                },
+                {
+                    "value": "dropdown",
+                    "label": "Dropdown"
+                },
+                {
+                    "value": "color",
+                    "label": "Color swatch"
+                },
+                {
+                    "value": "variant",
+                    "label": "Variant image"
+                }
+            ],
+            "default": "color"
+        },
+        {
+            "type": "page",
+            "id": "size_chart_page",
+            "label": "Size chart page",
+            "info": "Feature a page for size option"
+        }
+    ]
+}

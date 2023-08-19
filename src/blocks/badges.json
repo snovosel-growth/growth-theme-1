@@ -1,0 +1,10 @@
+{
+    "type": "badges",
+    "name": "Badges",
+    "limit": 1,
+    "settings": [
+        {
+            "type": "paragraph",
+            "content": "Use metafields to add custom badges. [Learn more](https://support.maestrooo.com/article/75-collection-displaying-custom-label)"
+        }
+    ]

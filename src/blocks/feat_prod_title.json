@@ -1,0 +1,13 @@
+{
+    "type": "feat-prod-title",
+    "name": "Title",
+    "limit": 1,
+    "settings": [
+        "text_color",
+        "background_color",
+        "position",
+        "font_style",
+        "desktop_font_size",
+        "mobile_font_size"
+    ]
+}

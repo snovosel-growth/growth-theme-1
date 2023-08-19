@@ -1,0 +1,11 @@
+{
+    "type": "payment_terms",
+    "name": "Payment installments",
+    "limit": 1,
+    "settings": [
+        {
+            "type": "paragraph",
+            "content": "To display payment installments, your store needs to support Shop Pay Installments. [Learn more](https://help.shopify.com/en/manual/payments/shop-pay-installments)"
+        }
+    ]
+}
