@@ -4,7 +4,7 @@
     "tag": "section",
     "disabled_on": [],
     "blocks": [
-        "feat_prod_media_gallery.json",
+        "feat_prod_media_gallery",
         "app",
         "feat_prod_vendor",
         "feat_prod_title",

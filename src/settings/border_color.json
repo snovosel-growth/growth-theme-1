@@ -1,0 +1,6 @@
+{
+    "type": "color",
+    "id": "border_color",
+    "label": "Border color",
+    "default": "#d9d9d9"
+}

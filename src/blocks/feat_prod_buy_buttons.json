@@ -3,39 +3,12 @@
     "name": "Buy buttons",
     "limit": 1,
     "settings": [
-        {
-            "type": "checkbox",
-            "id": "show_payment_button",
-            "label": "Show dynamic checkout button",
-            "info": "Each customer will see their preferred payment method from those available on your store, such as PayPal or Apple Pay. [Learn more](https://help.shopify.com/manual/using-themes/change-the-layout/dynamic-checkout)",
-            "default": true
-        },
-        {
-            "type": "checkbox",
-            "id": "show_gift_card_recipient",
-            "label": "Show recipient information form for gift cards",
-            "info": "Allow buyers to send gift cards along with a personal message. [Learn more](https://help.shopify.com/manual/online-store/themes/customizing-themes/add-gift-card-recipient-fields)",
-            "default": true
-        },
-        {
-            "type": "color",
-            "id": "atc_button_background",
-            "label": "Add to cart background"
-        },
-        {
-            "type": "color",
-            "id": "atc_button_text_color",
-            "label": "Add to cart color"
-        },
-        {
-            "type": "color",
-            "id": "payment_button_background",
-            "label": "Buy now button background"
-        },
-        {
-            "type": "color",
-            "id": "payment_button_text_color",
-            "label": "Buy now button color"
-        }
+        "show_payment_button",
+        "show_gift_card_recipient",
+        "atc_button_background",
+        "atc_button_text_color",
+        "payment_button_background",
+        "payment_button_text_color",
+        "payment_button_text_color"
     ]
 }
