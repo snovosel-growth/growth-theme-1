@@ -43,7 +43,12 @@ function resolveSectionBlocks(blocks) {
 export default function (source) {
     const section = JSON.parse(source);
 
-    return `{% schema %}\n${JSON.stringify({
+    const srcDir = this.context.split('/');
+    const srcSlug = srcDir[srcDir.length - 1];
+
+    const template = fs.readFileSync(path.resolve('src', 'sections', srcSlug, 'index.liquid'));
+
+    const schema = `{% schema %}\n${JSON.stringify({
         name: section.name,
         class: section.class,
         tag: section.tag,
@@ -51,4 +56,6 @@ export default function (source) {
         settings: resolveSectionSettings(section.settings),
         blocks: resolveSectionBlocks(section.blocks)
     }, null, "\t")}\n{% endschema %}`;
+
+    return `${template}\n \n${schema}`;
 }

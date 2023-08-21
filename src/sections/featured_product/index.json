@@ -2,6 +2,7 @@
     "name": "Featured Product",
     "class": "shopify-section--featured-product",
     "tag": "section",
+    "slug": "featured_product",
     "disabled_on": [],
     "blocks": [
         "feat_prod_media_gallery",

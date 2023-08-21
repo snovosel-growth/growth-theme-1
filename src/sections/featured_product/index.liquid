@@ -1,97 +1,42 @@
-{%- render 'section-spacing-collapsing' -%}
+<div class="product">
+  {% assign media_gallery_blocks = section.blocks | where: 'type', 'feat-prod-media-gallery' %}
+  {% if media_gallery_blocks.size > 0 %}
+    {% for block in media_gallery_blocks %}
+      {% render 'feat-prod-media-gallery', with block: block, section: section %}
+    {% endfor %}
+  {% endif %}
 
-<style>
-    #shopify-section-{{ section.id }}{
-      --product-grid: auto / minmax(0, 1fr);
-      --product-gallery-media-list-grid: auto / auto-flow{% if section.settings.mobile_carousel_control == 'free_scroll' %}{% if section.settings.mobile_media_size == 'expanded' %}
-        84vw{% else %}
-        73vw{% endif %}
-    {% else %}
-      100%{% endif %};
-    --product-gallery-media-list-gap: {% if section.settings.mobile_media_size == 'expanded' %}
-      var(--spacing-0-5){% else %}
-      var(--grid-gutter){% endif %};
-  }
+  <div class="product-info" {% render 'section-properties', tight: true %}>
+    {%- capture product_form_id -%}featured-product-form-{{ section.id }}{%- endcapture -%}
 
-  @media screen and (max-width: 999px) {
-    #shopify-section-{{ section.id }}{
-      --section-spacing-block-start: {% if section.settings.mobile_media_size == 'expanded' %}
-        0px{% else %}
-        var(--container-gutter){% endif %};
-    }
-  }
+    <div class="product-info__container">
+      {%- for block in section.blocks -%}
+        {% case block.type %}
+          {% when 'feat-prod-vendor' %}
+            {% render 'feat-prod-vendor' %}
 
-  @media screen and (min-width: 1000px) {
-    #shopify-section-{{ section.id }}{
-      --product-gallery-media-list-grid: {% if section.settings.desktop_media_layout contains 'grid' %}
-        auto-flow dense / repeat(2, minmax(0, 1fr)){% else %}
-        auto / auto-flow 100%{% endif %};
-      --product-gallery-media-list-gap: calc(var(--grid-gutter) / 2);
-    }
+          {% when 'feat-prod-title' %}
+            {% render 'feat-prod-title' %}
 
-    #shopify-section-{{ section.id }}.product-info__title {
-      font-size: block.settings.mobile_font_size;
-    }
+          {% when 'feat-prod-price' %}
+            {% render 'feat-prod-price' %}
 
-    {%- if section.settings.desktop_media_layout == 'grid_highlight' -%}
-      #shopify-section-{{ section.id }}.product-gallery__media-list > :not([hidden]) {
-        grid-column: span 2;
-      }
+          {% when 'feat-prod-separator' %}
+            {% render 'feat-prod-separator' %}
 
-      #shopify-section-{{ section.id }}.product-gallery__media-list > :not([hidden]) ~ *:not(.product-gallery__media--expand) {
-        grid-column: span 1;
-      }
-    {%- endif -%}
-  }
+          {% when 'feat-prod-description' %}
+            {% render 'feat-prod-description' %}
 
-  @media screen and (min-width: 1400px) {
-    #shopify-section-{{ section.id }}{
-      --product-gallery-media-list-gap: var(--grid-gutter);
-    }
-  }
-</style>
+          {% when 'variant-picker' %}
+            {% render 'variant-picker' %}
 
-<div {% render 'section-properties', tight: true %}>
-  <div class="product">
-    {% assign media_gallery_blocks = section.blocks | where: 'type', 'feat-prod-media-gallery' %}
-    {% if media_gallery_blocks.size > 0 %}
-      {% for block in media_gallery_blocks %}
-        {% render 'feat-prod-media-gallery', with block: block, section: section %}
-      {% endfor %}
-    {% endif %}
+          {% when 'feat-prod-quantity-select' %}
+            {% render 'feat-prod-quantity-select' %}
 
-    <div class="product-info" {% render 'section-properties', tight: true %}>
-      {%- capture product_form_id -%}featured-product-form-{{ section.id }}{%- endcapture -%}
-
-      <div class="product-info__container">
-        {%- for block in section.blocks -%}
-          {% case block.type %}
-            {% when 'feat-prod-vendor' %}
-              {% render 'feat-prod-vendor' %}
-
-            {% when 'feat-prod-title' %}
-              {% render 'feat-prod-title' %}
-
-            {% when 'feat-prod-price' %}
-              {% render 'feat-prod-price' %}
-
-            {% when 'feat-prod-separator' %}
-              {% render 'feat-prod-separator' %}
-
-            {% when 'feat-prod-description' %}
-              {% render 'feat-prod-description' %}
-
-            {% when 'variant-picker' %}
-              {% render 'variant-picker' %}
-
-            {% when 'feat-prod-quantity-select' %}
-              {% render 'feat-prod-quantity-select' %}
-
-            {% when 'feat-prod-buy-buttons' %}
-              {% render 'feat-prod-buy-buttons' %}
-          {% endcase %}
-        {%- endfor -%}
-      </div>
+          {% when 'feat-prod-buy-buttons' %}
+            {% render 'feat-prod-buy-buttons' %}
+        {% endcase %}
+      {%- endfor -%}
     </div>
   </div>
 </div>
