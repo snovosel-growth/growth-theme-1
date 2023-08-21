@@ -15,7 +15,7 @@ const allSections = fs.readdirSync(path.resolve('src', 'sections')).map(sectionN
 export default {
     entry: [...allSections],
     output: {
-        path: path.resolve(__dirname, 'build', 'sections'),
+        path: path.resolve(__dirname, 'build'),
     },
 
     module: {
