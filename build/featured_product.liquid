@@ -22,7 +22,137 @@
 		}
 	],
 	"blocks": [
-		null,
+		{
+			"type": "feat-prod-media-gallery",
+			"name": "Media Gallery",
+			"settings": [
+				{
+					"type": "header",
+					"content": "Media"
+				},
+				{
+					"type": "paragraph",
+					"content": "Learn more about [media types](https://help.shopify.com/en/manual/products/product-media)"
+				},
+				{
+					"type": "select",
+					"id": "desktop_media_position",
+					"label": "Desktop media position",
+					"options": [
+						{
+							"value": "left",
+							"label": "Left"
+						},
+						{
+							"value": "center",
+							"label": "Center"
+						},
+						{
+							"value": "right",
+							"label": "Right"
+						}
+					],
+					"default": "left"
+				},
+				{
+					"type": "range",
+					"id": "desktop_media_width",
+					"label": "Desktop media size",
+					"min": 35,
+					"max": 65,
+					"step": 5,
+					"unit": "%",
+					"default": 55
+				},
+				{
+					"type": "select",
+					"id": "desktop_media_layout",
+					"label": "Desktop media layout",
+					"options": [
+						{
+							"value": "grid",
+							"label": "Grid"
+						},
+						{
+							"value": "grid_highlight",
+							"label": "Grid with main media"
+						},
+						{
+							"value": "carousel_thumbnails_left",
+							"label": "Thumbnails left (carousel)"
+						},
+						{
+							"value": "carousel_thumbnails_bottom",
+							"label": "Thumbnails bottom (carousel)"
+						}
+					],
+					"default": "carousel_thumbnails_left"
+				},
+				{
+					"type": "select",
+					"id": "mobile_media_size",
+					"label": "Mobile media size",
+					"options": [
+						{
+							"value": "expanded",
+							"label": "Expanded"
+						},
+						{
+							"value": "contained",
+							"label": "Contained"
+						}
+					],
+					"default": "expanded"
+				},
+				{
+					"type": "select",
+					"id": "mobile_carousel_control",
+					"label": "Mobile carousel control",
+					"options": [
+						{
+							"value": "dots",
+							"label": "Dots"
+						},
+						{
+							"value": "floating_dots",
+							"label": "Floating dots"
+						},
+						{
+							"value": "thumbnails",
+							"label": "Thumbnails"
+						},
+						{
+							"value": "free_scroll",
+							"label": "Free scroll"
+						}
+					],
+					"default": "floating_dots"
+				},
+				{
+					"type": "checkbox",
+					"id": "enable_video_autoplay",
+					"label": "Enable video autoplay",
+					"info": "Video are muted automatically to allow autoplay. Grid mode on desktop turn off autoplay.",
+					"default": true
+				},
+				{
+					"type": "checkbox",
+					"id": "enable_video_looping",
+					"label": "Enable video looping",
+					"default": false
+				},
+				{
+					"type": "range",
+					"id": "media_border_radius",
+					"label": "Media border radius",
+					"min": 0,
+					"max": 100,
+					"step": 1,
+					"unit": "px",
+					"default": 0
+				}
+			]
+		},
 		{
 			"type": "@app"
 		},
@@ -523,12 +653,13 @@
 				},
 				{
 					"type": "range",
-					"id": "border_radius",
-					"label": "Border radius",
+					"id": "media_border_radius",
+					"label": "Media border radius",
 					"min": 0,
 					"max": 100,
 					"step": 1,
-					"default": 40
+					"unit": "px",
+					"default": 0
 				},
 				{
 					"type": "range",
@@ -547,24 +678,29 @@
 				},
 				{
 					"type": "color",
-					"id": "text_color",
-					"label": "Text color",
+					"id": "color",
+					"label": "Color",
 					"default": "#1a1a1a"
 				},
 				{
+					"name": "Background Color",
+					"description": "Set the background color for the target",
 					"type": "color",
-					"id": "background_color",
-					"label": "Background Color",
-					"default": "transparent"
+					"id": "background",
+					"label": "Background"
 				},
 				{
 					"type": "select",
-					"id": "position",
-					"label": "Position",
+					"id": "desktop_media_position",
+					"label": "Desktop media position",
 					"options": [
 						{
 							"value": "left",
 							"label": "Left"
+						},
+						{
+							"value": "center",
+							"label": "Center"
 						},
 						{
 							"value": "right",
@@ -625,6 +761,11 @@
 					"type": "color",
 					"id": "payment_button_background",
 					"label": "Buy now button background"
+				},
+				{
+					"type": "color",
+					"id": "payment_button_text_color",
+					"label": "Buy now button color"
 				},
 				{
 					"type": "color",

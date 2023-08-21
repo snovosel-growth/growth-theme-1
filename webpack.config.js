@@ -13,6 +13,11 @@ export default {
         path: path.resolve(__dirname, 'build'),
     },
 
+    plugins: {
+        tailwindcss: {},
+        autoprefixer: {},
+    },
+
     module: {
         rules: [
             {
