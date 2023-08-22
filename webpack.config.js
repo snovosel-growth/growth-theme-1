@@ -2,6 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import { fileURLToPath } from 'url';
 
+import WebpackShellPluginNext from 'webpack-shell-plugin-next';
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -24,7 +26,7 @@ export default {
                 test: /\.css$/,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'theme.css'
+                    filename: 'assets/theme.css'
                 },
                 use: [
                     path.resolve(__dirname, 'webpack', 'section-style-loader.js')
@@ -45,5 +47,16 @@ export default {
                 ]
             }
         ],
-    }
+    },
+
+    plugins: [
+        new WebpackShellPluginNext({
+            onBuildEnd: {
+                scripts: [
+                    () => fs.unlinkSync(path.resolve(__dirname, 'build', 'main.js'))
+                ],
+                blocking: false,
+            }
+        })
+    ]
 }
