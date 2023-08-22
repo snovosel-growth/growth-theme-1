@@ -6,7 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "node scaffold.js && webpack --progress --mode=production"
+    "build": "node scaffold.js && webpack --progress --mode=production",
+    "start": "npm run build && node start-theme.js"
   },
   "keywords": [],
   "author": "",

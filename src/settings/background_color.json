@@ -1,6 +1,4 @@
 {
-    "name": "Background Color",
-    "description": "Set the background color for the target",
     "type": "color",
     "id": "background",
     "label": "Background"
