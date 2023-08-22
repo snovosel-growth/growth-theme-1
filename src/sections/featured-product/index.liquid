@@ -9,7 +9,7 @@
   <div class="product-info" {% render 'section-properties', tight: true %}>
     {%- capture product_form_id -%}featured-product-form-{{ section.id }}{%- endcapture -%}
 
-    <div class="product-info__container">
+    <div class="text-3xl product-info__container">
       {%- for block in section.blocks -%}
         {% case block.type %}
           {% when 'feat-prod-vendor' %}

@@ -1,6 +1,7 @@
 import { spawn } from 'child_process';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import open from 'open';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -12,7 +13,27 @@ const childProcess = spawn('shopify', ['theme', 'dev'], {
 });
 
 childProcess.stdout.on('data', (data) => {
-    console.log(`${data}`);
+    // const linkRegex = /\[2\] (https:\/\/[^\n]+)/;
+    // const linkMatch = dataString.match(linkRegex);
+
+    // let link;
+
+    // if ( linkMatch ) {
+    //     let link = linkMatch[1];
+    // }
+
+
+
+    const dataString = data.toString();
+
+    console.log('dataString', dataString);
+
+    // 
+
+    // if (match) {
+    //     const link = match[1];
+    //     open(link);
+    // }
 });
 
 childProcess.stderr.on('data', (data) => {

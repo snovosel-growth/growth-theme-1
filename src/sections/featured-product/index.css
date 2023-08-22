@@ -1,37 +1,39 @@
+@tailwind utilities;
+
 .product {
-    display: flex;
-    justify-content: flex-start;
-    align-items: stretch;
-    gap: 35px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: stretch;
+  gap: 35px;
 }
 
 @media screen and (min-width: 1150px) {
-    .product {
-        column-gap: var(--spacing-12);
-    }
+  .product {
+    column-gap: var(--spacing-12);
+  }
 }
 
 @media screen and (min-width: 1600px) {
-    .product {
-        column-gap: var(--spacing-24);
-    }
+  .product {
+    column-gap: var(--spacing-24);
+  }
 }
 
 .product-info {
-    display: flex;
-    flex-direction: row;
-    flex: 1;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
 }
 
 .product-info__container {
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: stretch;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  width: 100%;
 }
 
 .product-info>*+* {
-    margin-block-start: var(--product-info-block-spacing);
-    margin-block-end: var(--product-info-block-spacing);
+  margin-block-start: var(--product-info-block-spacing);
+  margin-block-end: var(--product-info-block-spacing);
 }

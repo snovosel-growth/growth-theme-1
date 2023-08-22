@@ -1,9 +1,16 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  content: ["./src/**/*.{html,js}"],
+  content: ["./src/sections/**/*.liquid"],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [
+    {
+      tailwindcss: {},
+    },
+    {
+      autoprefixer: {},
+    }
+  ]
 }
 

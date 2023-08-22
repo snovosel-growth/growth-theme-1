@@ -29,7 +29,10 @@ export default {
                     filename: 'assets/theme.css'
                 },
                 use: [
-                    path.resolve(__dirname, 'webpack', 'section-style-loader.js')
+                    path.resolve(__dirname, 'webpack', 'section-style-cleanup.js'),
+                    path.resolve(__dirname, 'webpack', 'section-style-loader.js'),
+                    path.resolve(__dirname, 'webpack', 'tailwindcss-loader.js'),
+                    'postcss-loader'
                 ]
             },
             {
@@ -39,7 +42,7 @@ export default {
                     filename: ({ filename }) => {
                         const sectionName = path.basename(path.dirname(filename));
 
-                        return `sections/${sectionName}.liquid`
+                        return `sections/${sectionName}.liquid`;
                     }
                 },
                 use: [
