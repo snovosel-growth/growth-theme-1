@@ -240,3 +240,78 @@ recently-viewed-products {
         max-width: min(var(--image-max-width, 100%), 100%);
     }
 }
+
+.bg-custom {
+    background: rgb(var(--background));
+}
+
+.placeholder {
+    background: rgb(var(--text-primary) / .3);
+    fill: rgb(var(--text-primary) / .7);
+    color: rgb(var(--text-primary) / .7);
+    display: block;
+}
+
+.section {
+    --context-section-spacing-block-start: var(--section-outer-spacing-block);
+    --context-section-spacing-block-end: var(--section-outer-spacing-block);
+    --context-section-spacing-inline: var(--container-gutter);
+    --calculated-section-spacing-block-start: var(--section-spacing-block-start, var(--section-spacing-block, var(--context-section-spacing-block-start)));
+    --calculated-section-spacing-block-end: var(--section-spacing-block-end, var(--section-spacing-block, var(--context-section-spacing-block-end)));
+    --calculated-section-spacing-inline: var(--section-spacing-inline, var(--context-section-spacing-inline));
+    --container-inner-width: min((100vw - var(--scrollbar-width, 0px)) - var(--calculated-section-spacing-inline, 0px) * 2, var(--container-max-width));
+    --container-outer-width: calc(((100vw - var(--scrollbar-width, 0px)) - var(--container-inner-width, 0px)) / 2);
+    --section-stack-spacing-inline: var(--section-inner-spacing-inline, 0px);
+    padding-inline-start: max(var(--calculated-section-spacing-inline), 50% - var(--container-max-width) / 2);
+    padding-inline-end: max(var(--calculated-section-spacing-inline), 50% - var(--container-max-width) / 2);
+}
+
+.section--tight {
+    --calculated-section-spacing-block-start: min(48px, var(--section-spacing-block-start, var(--section-spacing-block, var(--context-section-spacing-block-start))));
+    --calculated-section-spacing-block-end: min(48px, var(--section-spacing-block-end, var(--section-spacing-block, var(--context-section-spacing-block-end))));
+    --calculated-section-spacing-inline: min(48px, var(--section-spacing-inline, var(--context-section-spacing-inline)));
+}
+
+.section--narrow {
+    --container-max-width: var(--container-narrow-max-width);
+}
+
+.section {
+    padding-block-start: calc(var(--background-differs-from-previous) * var(--calculated-section-spacing-block-start));
+    padding-block-end: var(--calculated-section-spacing-block-end);
+}
+
+@media screen and (min-width: 700px) {
+    .section--tight {
+        --calculated-section-spacing-block-start: min(48px, var(--section-spacing-block-start, var(--section-spacing-block, var(--context-section-spacing-block-start, 0px))));
+        --calculated-section-spacing-block-end: min(48px, var(--section-spacing-block-end, var(--section-spacing-block, var(--context-section-spacing-block-end, 0px))));
+    }
+
+    .section-boxed {
+        --context-section-spacing-block-start: min(var(--section-inner-max-spacing-block, var(--section-outer-spacing-block)));
+        --context-section-spacing-block-end: min(var(--section-inner-max-spacing-block, var(--section-outer-spacing-block)));
+        --context-section-spacing-inline: var(--section-inner-spacing-inline);
+        --container-inner-width: calc(var(--container-max-width) - var(--container-outer-width) * 2);
+        --container-outer-width: var(--calculated-section-spacing-inline);
+        border-radius: var(--rounded-lg);
+        box-shadow: var(--shadow-block);
+        margin-block-start: calc(var(--background-differs-from-previous) * var(--section-outer-spacing-block-start, var(--section-outer-spacing-block)));
+        margin-block-end: var(--section-outer-spacin-block-end, var(--section-outer-spacing-block));
+        margin-inline-start: max(var(--container-gutter), 50% - var(--container-max-width) / 2);
+        margin-inline-end: max(var(--container-gutter), 50% - var(--container-max-width) / 2);
+        padding-block-start: var(--calculated-section-spacing-block-start);
+        padding-inline-start: var(--calculated-section-spacing-inline);
+        padding-inline-end: var(--calculated-section-spacing-inline);
+    }
+
+    .shopify-section:first-child {
+        --section-outer-spacing-block-start: 24px;
+    }
+}
+
+@media screen and (min-width: 1600px) {
+    .section--tight {
+        --calculated-section-spacing-block-start: min(64px, var(--section-spacing-block-start, var(--section-spacing-block, var(--context-section-spacing-block-start, 0px))));
+        --calculated-section-spacing-block-end: min(64px, var(--section-spacing-block-end, var(--section-spacing-block, var(--context-section-spacing-block-end, 0px))));
+    }
+}

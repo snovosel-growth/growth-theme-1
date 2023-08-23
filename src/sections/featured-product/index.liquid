@@ -1,42 +1,44 @@
-<div class="product">
-  {% assign media_gallery_blocks = section.blocks | where: 'type', 'feat-prod-media-gallery' %}
-  {% if media_gallery_blocks.size > 0 %}
-    {% for block in media_gallery_blocks %}
-      {% render 'feat-prod-media-gallery', with block: block, section: section %}
-    {% endfor %}
-  {% endif %}
+<div {% render 'section-properties', tight: true %}>
+  <div class="product">
+    {% assign media_gallery_blocks = section.blocks | where: 'type', 'feat-prod-media-gallery' %}
+    {% if media_gallery_blocks.size > 0 %}
+      {% for block in media_gallery_blocks %}
+        {% render 'feat-prod-media-gallery', with block: block, section: section %}
+      {% endfor %}
+    {% endif %}
 
-  <div class="product-info" {% render 'section-properties', tight: true %}>
-    {%- capture product_form_id -%}featured-product-form-{{ section.id }}{%- endcapture -%}
+    <div class="product-info" {% render 'section-properties', tight: true %}>
+      {%- capture product_form_id -%}featured-product-form-{{ section.id }}{%- endcapture -%}
 
-    <div class="product-info__container">
-      {%- for block in section.blocks -%}
-        {% case block.type %}
-          {% when 'feat-prod-vendor' %}
-            {% render 'feat-prod-vendor' %}
+      <div class="product-info__container">
+        {%- for block in section.blocks -%}
+          {% case block.type %}
+            {% when 'feat-prod-vendor' %}
+              {% render 'feat-prod-vendor', with block: block, section: section %}
 
-          {% when 'feat-prod-title' %}
-            {% render 'feat-prod-title' %}
+            {% when 'feat-prod-title' %}
+              {% render 'feat-prod-title', with block: block, section: section %}
 
-          {% when 'feat-prod-price' %}
-            {% render 'feat-prod-price' %}
+            {% when 'feat-prod-price' %}
+              {% render 'feat-prod-price', with block: block, section: section %}
 
-          {% when 'feat-prod-separator' %}
-            {% render 'feat-prod-separator' %}
+            {% when 'feat-prod-separator' %}
+              {% render 'feat-prod-separator', with block: block, section: section %}
 
-          {% when 'feat-prod-description' %}
-            {% render 'feat-prod-description' %}
+            {% when 'feat-prod-description' %}
+              {% render 'feat-prod-description', with block: block, section: section %}
 
-          {% when 'variant-picker' %}
-            {% render 'variant-picker' %}
+            {% when 'variant-picker' %}
+              {% render 'variant-picker', with block: block, section: section %}
 
-          {% when 'feat-prod-quantity-select' %}
-            {% render 'feat-prod-quantity-select' %}
+            {% when 'feat-prod-quantity-select' %}
+              {% render 'feat-prod-quantity-select', with block: block, section: section %}
 
-          {% when 'feat-prod-buy-buttons' %}
-            {% render 'feat-prod-buy-buttons' %}
-        {% endcase %}
-      {%- endfor -%}
+            {% when 'feat-prod-buy-buttons' %}
+              {% render 'feat-prod-buy-buttons', with block: block, section: section %}
+          {% endcase %}
+        {%- endfor -%}
+      </div>
     </div>
   </div>
 </div>
