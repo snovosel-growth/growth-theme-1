@@ -14,8 +14,10 @@ const allSections = fs.readdirSync(path.resolve('src', 'sections')).map(sectionN
     return sectionFiles.map(file => `${sectionDir}/${file}`);
 }).flat();
 
+const baseStyles = path.resolve(__dirname, 'src', 'css', 'base.css');
+
 export default {
-    entry: [...allSections],
+    entry: [...allSections, baseStyles],
     output: {
         path: path.resolve(__dirname, 'build'),
     },
@@ -26,7 +28,7 @@ export default {
                 test: /\.css$/,
                 type: 'asset/resource',
                 generator: {
-                    filename: 'assets/theme.css'
+                    filename: 'assets/css/[hash].css'
                 },
                 use: [
                     path.resolve(__dirname, 'webpack', 'section-style-cleanup.js'),
@@ -56,7 +58,8 @@ export default {
         new WebpackShellPluginNext({
             onBuildEnd: {
                 scripts: [
-                    () => fs.unlinkSync(path.resolve(__dirname, 'build', 'main.js'))
+                    () => fs.unlinkSync(path.resolve(__dirname, 'build', 'main.js')),
+                    'node build-styles.js',
                 ],
                 blocking: false,
             }
