@@ -4,9 +4,7 @@
     "limit": 1,
     "settings": [
         "text_color",
-        "background_color",
-        "position",
-        "font_style",
+        "text_align",
         "desktop_font_size",
         "mobile_font_size"
     ]

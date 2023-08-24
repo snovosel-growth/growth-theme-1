@@ -4,7 +4,6 @@
     "limit": 1,
     "settings": [
         "text_color",
-        "background_color",
-        "position"
+        "text_align"
     ]
 }
